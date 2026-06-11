@@ -1,0 +1,39 @@
+
+Becoming/
+├── addons/
+│   └── inkgd/                  # godot-ink plugin
+├── scenes/
+│   ├── main.tscn               # Entry point
+│   ├── garden/
+│   │   └── garden_of_memory.tscn   # MVP region
+│   └── ui/
+│       └── dialogue_panel.tscn      # Voice dialogue display
+├── scripts/
+│   ├── core/
+│   │   ├── psyche_system.gd         # Voice state management
+│   │   ├── voice.gd                 # Single voice class
+│   │   ├── identity_state.gd        # Identity State Vector
+│   │   └── choice_log.gd            # Append-only choice history
+│   ├── world/
+│   │   ├── landscape_manager.gd     # Psyche-to-world mapping
+│   │   └── garden_controller.gd     # Garden region logic
+│   ├── narrative/
+│   │   ├── dialogue_manager.gd      # Ink integration layer
+│   │   └── question_object.gd       # Dilemma presenter
+│   └── time/
+│       └── day_cycle.gd             # Morning/Afternoon/Evening/Night
+├── ink/
+│   ├── voices/
+│   │   ├── curiosity.ink            # Curiosity's dialogue pool
+│   │   ├── compassion.ink           # Compassion's dialogue pool
+│   │   └── stability.ink            # Stability's dialogue pool
+│   ├── dilemmas/
+│   │   └── first_dilemma.ink        # The question object
+│   └── echoes/
+│       └── future_self.ink          # Night phase echo
+├── assets/
+│   ├── art/                    # Placeholder visuals (later: painterly)
+│   ├── audio/                  # Ambient layers, voice motifs
+│   └── fonts/                  # Typography
+└── project.godot               # Godot project file
+
