@@ -1,228 +1,284 @@
+
 class_name DialogueData
 extends RefCounted
 
-# === VOICE LINES DATABASE ===
-# Organized by: voice → status → context → lines[]
-# Context types: "observe", "dilemma", "reflect", "night"
-# The system picks lines based on voice state + current phase of the day
+## Dialogue lines now organized by voice + sub-expression.
+## Each voice speaks differently based on WHICH flavor is dominant.
+
+# Structure: voice_name -> context -> sub_expression -> [lines]
+# Falls back to "general" sub_expression if specific one has no lines
 
 static var lines: Dictionary = {
-	"curiosity": {
-		"healthy": {
-			"observe": [
-				"There's something past that edge. Can you feel it?",
-				"This place wasn't here yesterday. Or was it?",
-				"Look — the light bends differently there. Why?",
-				"Everything here is an invitation. Even the silence.",
+	"Curiosity": {
+		"observe": {
+			"exploration": [
+				"There's something past that edge. Can you feel it pulling?",
+				"Look — the light bends differently there. What's it hiding?",
+				"Every boundary is just an invitation in disguise.",
 			],
-			"dilemma": [
+			"confrontation": [
+				"You're avoiding that corner of the garden. Why?",
+				"What are you afraid you'll find if you look closer?",
+				"The thing you won't examine is the thing that owns you.",
+			],
+			"self_inquiry": [
+				"What does it mean that you noticed this before anything else?",
+				"Your attention went there first. What does that tell you?",
+				"The garden shows you yourself. Are you looking?",
+			],
+			"general": [
+				"There's something past that edge. Can you feel it?",
+				"Look — the light bends differently there. Why?",
+				"What else is out there, beyond what we've seen?",
+			],
+		},
+		"dilemma": {
+			"exploration": [
+				"Go through the door. The worst that happens is you learn something.",
+				"You already know what staying feels like. Don't you want to know what going feels like?",
+			],
+			"confrontation": [
+				"You're hesitating because you already know the answer. Say it.",
+				"Stop pretending this is complicated. You know what you want.",
+			],
+			"self_inquiry": [
+				"Before you choose — what does your hesitation tell you about yourself?",
+				"Which choice scares you more? That's the one worth examining.",
+			],
+			"general": [
 				"Go through the door. What's the worst that happens — you learn something?",
 				"You already know what staying feels like. Don't you want to know what going feels like?",
-				"The unknown isn't dangerous. It's just... unknown.",
-				"If you don't look, you'll always wonder. And wondering is heavier than knowing.",
 			],
-			"reflect": [
-				"See? That wasn't so terrible. And now you know something you didn't before.",
-				"Every door you open becomes part of the landscape. This one is yours now.",
+		},
+		"reflect": {
+			"exploration": [
 				"The world got a little larger today. That's never a loss.",
+				"Every door you open becomes part of the landscape. This one is yours now.",
 			],
-			"night": [
+			"confrontation": [
+				"You faced it. That's more than most people do with a lifetime.",
+				"The truth didn't kill you. It never does. It just rearranges things.",
+			],
+			"self_inquiry": [
+				"What did you learn about yourself today? Sit with it.",
+				"You chose. Now ask: was that who you are, or who you're becoming?",
+			],
+			"general": [
+				"The world got a little larger today. That's never a loss.",
+				"Every door you open becomes part of the landscape.",
+			],
+		},
+		"night": {
+			"general": [
 				"What else is out there, beyond what we've seen?",
-				"Even in the dark, there are outlines of things waiting to be found.",
-			],
-		},
-		"weakened": {
-			"observe": [
-				"...is there something there? I can't quite...",
-				"Maybe. I don't know anymore.",
-			],
-			"dilemma": [
-				"You could... look? If you wanted to. It's fine either way.",
-				"I used to feel more strongly about this.",
-			],
-			"reflect": [
-				"Did that matter? I think it did. Once.",
-			],
-			"night": [
-				"....",
-			],
-		},
-		"distorted": {
-			"observe": [
-				"THERE. Did you see that? We need to go. NOW.",
-				"Everything here is hiding something. Everything.",
-				"Why are we standing still? There's always more. ALWAYS.",
-			],
-			"dilemma": [
-				"Open it. Open everything. What are you afraid of?",
-				"Staying is death. Comfort is a coffin. MOVE.",
-				"You'll never have enough. Accept that and keep searching.",
-			],
-			"reflect": [
-				"That wasn't enough. It's never enough. What's next?",
-				"Already? We're done already? There has to be more.",
-			],
-			"night": [
-				"I can't sleep. There's too much left unseen. Too much.",
+				"Even in the dark, I'm reaching for the edge of things.",
+				"Sleep is just another threshold. What's on the other side?",
 			],
 		},
 	},
-	
-	"compassion": {
-		"healthy": {
-			"observe": [
+	"Compassion": {
+		"observe": {
+			"care": [
 				"Something here is hurting. Can you feel it too?",
-				"This place remembers being tended. It misses it.",
 				"There's a warmth here — faint, but real. Someone left it.",
-				"Not everything needs to be understood. Some things just need to be held.",
 			],
-			"dilemma": [
+			"sacrifice": [
+				"Who else is in this garden? They might need you more.",
+				"Your comfort can wait. Look around first.",
+			],
+			"attunement": [
+				"The garden itself is breathing. Listen to its rhythm.",
+				"Something shifted just now. Did you feel it? Something tender.",
+			],
+			"general": [
+				"Something here is hurting. Can you feel it too?",
+				"There's a warmth here — faint, but real. Someone left it.",
+				"This place remembers being tended. It misses it.",
+			],
+		},
+		"dilemma": {
+			"care": [
 				"Before you choose — who else does this affect?",
-				"You're thinking about yourself again. That's okay. But also look outward.",
-				"The gentle choice isn't always the weak one.",
 				"What would kindness do here? Not softness — kindness. They're different.",
 			],
-			"reflect": [
-				"That was brave. Choosing others when you could have chosen yourself.",
+			"sacrifice": [
+				"Maybe this isn't about what you want. Maybe it's about what's needed.",
+				"You can bear this. The question is whether you should.",
+			],
+			"attunement": [
+				"Feel into all three options. Which one resonates in your body?",
+				"Your thinking mind has opinions. What does your feeling mind say?",
+			],
+			"general": [
+				"Before you choose — who else does this affect?",
+				"What would kindness do here? Not softness — kindness.",
+			],
+		},
+		"reflect": {
+			"care": [
 				"The world is a little warmer now. You did that.",
-				"Connection always costs something. But look what it grows.",
+				"Someone somewhere just felt a little less alone. Because of you.",
 			],
-			"night": [
+			"sacrifice": [
+				"You gave something today. Don't forget to notice what it cost.",
+				"Generosity without awareness becomes depletion. Watch that edge.",
+			],
+			"attunement": [
+				"You felt it all today. Every ripple. That's exhausting. That's also sacred.",
+				"The world registered in you fully. Let that be enough.",
+			],
+			"general": [
+				"The world is a little warmer now. You did that.",
+				"What you gave today will grow in soil you'll never see.",
+			],
+		},
+		"night": {
+			"general": [
 				"Who are you holding in your mind right now? They matter.",
-				"Even in the quiet, you're not alone. You carry everyone you've loved.",
-			],
-		},
-		"weakened": {
-			"observe": [
-				"...I suppose someone should care about that.",
-				"It's there. I see it. I just... can't reach it right now.",
-			],
-			"dilemma": [
-				"Do what you want. Everyone does eventually.",
-				"Others? I... yes. Others exist. I remember.",
-			],
-			"reflect": [
-				"Fine. It's fine.",
-			],
-			"night": [
-				"...",
-			],
-		},
-		"distorted": {
-			"observe": [
-				"Everything here is suffering. EVERYTHING. Can't you see?",
-				"You walk past so much pain. How do you do that?",
-				"We should be helping. Always helping. Why are we stopping?",
-			],
-			"dilemma": [
-				"Choose them. Always choose them. You don't matter here.",
-				"Your needs are selfish. Give everything. EVERYTHING.",
-				"If you choose yourself, you're abandoning them. All of them.",
-			],
-			"reflect": [
-				"It wasn't enough. You could have given more. You always could.",
-				"They're still hurting. And you're here, doing nothing.",
-			],
-			"night": [
-				"How can you rest when others can't?",
+				"Even rest is an act of care — for yourself.",
+				"The warmth you gave today is still radiating somewhere.",
 			],
 		},
 	},
-	
-	"stability": {
-		"healthy": {
-			"observe": [
-				"We've been here before. It's safe. The ground holds.",
-				"Notice how this part stays constant. That's worth something.",
-				"There's a rhythm to this place. Let it be. It works.",
-				"Not everything needs to change. Some things are good as they are.",
+	"Stability": {
+		"observe": {
+			"patience": [
+				"The ground held. It always does. Give it time.",
+				"Not everything needs to happen today. Look how steady this is.",
 			],
-			"dilemma": [
-				"We have enough uncertainty already. Is this worth the risk?",
-				"What we have works. Are you sure you want to disturb it?",
-				"There's wisdom in staying. Not everything still is stagnant.",
-				"Consider: what do you lose if you change this?",
+			"control": [
+				"Mark the boundaries. Know what's yours. Know what isn't.",
+				"Order isn't the enemy of beauty. It's the container for it.",
 			],
-			"reflect": [
+			"detachment": [
+				"You don't need to engage with everything you see.",
+				"Some things are just landscape. They don't require your attention.",
+			],
+			"general": [
 				"The ground held. See? Caution has its rewards.",
-				"We're still here. Still whole. That matters.",
+				"Not everything needs to change. Some things are already right.",
+				"Notice how the still things have their own kind of beauty.",
+			],
+		},
+		"dilemma": {
+			"patience": [
+				"There's wisdom in staying. Not everything still is stagnant.",
+				"Wait. The answer that comes from patience is different from the one you force.",
+			],
+			"control": [
+				"What we have works. Are you sure you want to disturb it?",
+				"Calculate the risk. Really calculate it. Then decide.",
+			],
+			"detachment": [
+				"You could also just... not choose. That's allowed.",
+				"This doesn't have to be your problem. Set it down.",
+			],
+			"general": [
+				"There's wisdom in staying. Not everything still is stagnant.",
+				"What we have works. Are you sure you want to disturb it?",
+			],
+		},
+		"reflect": {
+			"patience": [
+				"See? The ground holds. You didn't need to rush.",
+				"Time proved you right. It usually does, if you let it.",
+			],
+			"control": [
+				"The structure held. Because you maintained it.",
+				"Everything in its place. There's peace in that.",
+			],
+			"detachment": [
+				"You let it go. The world didn't end. Remember that.",
+				"Sometimes the bravest thing is to not engage.",
+			],
+			"general": [
+				"The ground held. See? Caution has its rewards.",
 				"Sometimes the bravest thing is to not move.",
 			],
-			"night": [
-				"Rest now. Tomorrow the ground will still hold you.",
-				"The world doesn't need to be different. It needs to be steady.",
-			],
 		},
-		"weakened": {
-			"observe": [
-				"Is this... safe? I can't tell anymore.",
-				"Everything shifts. I can't find the ground.",
-			],
-			"dilemma": [
-				"I don't... I don't know what's safe anymore.",
-				"Do what you want. Nothing stays anyway.",
-			],
-			"reflect": [
-				"We survived. I think. Did we?",
-			],
-			"night": [
-				"Will this still be here tomorrow?",
-			],
-		},
-		"distorted": {
-			"observe": [
-				"DON'T MOVE. Everything is exactly where it needs to be.",
-				"If you touch that, everything falls apart. EVERYTHING.",
-				"The order is perfect. Perfect. Don't you DARE disturb it.",
-			],
-			"dilemma": [
-				"NO. We stay. We always stay. Change is destruction.",
-				"You want to risk EVERYTHING we've built? For what? CURIOSITY?",
-				"Choose safety. Choose it. The alternative is annihilation.",
-			],
-			"reflect": [
-				"See what happens when things change? SEE?",
-				"We need more control. More structure. More walls.",
-			],
-			"night": [
-				"I'll watch. Someone has to watch. Always.",
+		"night": {
+			"general": [
+				"Rest now. Tomorrow the ground will still be here.",
+				"Nothing collapsed today. Let that be enough.",
+				"Stillness isn't emptiness. It's readiness.",
 			],
 		},
 	},
 }
 
 
-# === RETRIEVAL METHODS ===
+# === GET LINE — Now with sub-expression awareness ===
 
-## Get a line for a specific voice, based on current state and context
-static func get_line(voice: Voice, context: String) -> String:
-	var voice_key = voice.voice_name.to_lower()
-	var status_key = _get_status_key(voice)
+static func get_line(voice: Voice, context: String, sub_expression: String = "") -> String:
+	var voice_name = voice.voice_name
 	
-	if not lines.has(voice_key):
+	if not lines.has(voice_name):
 		return ""
-	if not lines[voice_key].has(status_key):
-		status_key = "healthy"  # fallback
-	if not lines[voice_key][status_key].has(context):
+	if not lines[voice_name].has(context):
 		return ""
 	
-	var available_lines = lines[voice_key][status_key][context]
-	if available_lines.is_empty():
-		return ""
+	var context_lines = lines[voice_name][context]
 	
-	# Pick a random line from available options
-	return available_lines[randi() % available_lines.size()]
+	# Try specific sub-expression first
+	if sub_expression != "" and context_lines.has(sub_expression):
+		var pool = context_lines[sub_expression]
+		if pool.size() > 0:
+			return pool[randi() % pool.size()]
+	
+	# Fall back to "general"
+	if context_lines.has("general"):
+		var pool = context_lines["general"]
+		if pool.size() > 0:
+			return pool[randi() % pool.size()]
+	
+	return ""
 
 
-## Get status key string from voice status enum
-static func _get_status_key(voice: Voice) -> String:
+# === GET LINE WITH STATUS MODIFIER ===
+
+static func get_line_modified(voice: Voice, context: String, sub_expression: String = "") -> Dictionary:
+	var line = get_line(voice, context, sub_expression)
+	if line == "":
+		return {}
+	
+	var tone = "clear"
+	
+	# Modify based on voice status
 	match voice.status:
-		Voice.Status.HEALTHY:
-			return "healthy"
 		Voice.Status.WEAKENED:
-			return "weakened"
+			tone = "fragile"
+			# Weakened voices speak with less certainty
+			line = _weaken_line(line)
 		Voice.Status.DISTORTED:
-			return "distorted"
-		Voice.Status.SILENT:
-			return "silent"
-	return "healthy"
+			tone = "twisted"
+			# Distorted voices twist their own philosophy
+			line = _distort_line(line, voice.voice_name)
+	
+	return {
+		"line": line,
+		"tone": tone,
+		"voice": voice.voice_name,
+		"sub_expression": sub_expression,
+		"status": Voice.Status.keys()[voice.status],
+	}
+
+
+static func _weaken_line(line: String) -> String:
+	# Add uncertainty markers to weakened lines
+	var prefixes = ["Maybe... ", "I think... ", "If you can still hear me... "]
+	return prefixes[randi() % prefixes.size()] + line.to_lower()
+
+
+static func _distort_line(line: String, voice_name: String) -> String:
+	# Distorted voices become corrupted versions of themselves
+	match voice_name:
+		"Curiosity":
+			# Becomes obsessive, invasive
+			return line.replace("?", "? You NEED to know. You HAVE to—")
+		"Compassion":
+			# Becomes martyrdom, guilt
+			return "You're not doing ENOUGH. " + line
+		"Stability":
+			# Becomes rigidity, paralysis
+			return "DON'T MOVE. " + line.replace(".", ". Stay. STAY.")
+	return line
