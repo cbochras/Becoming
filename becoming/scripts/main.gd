@@ -7,22 +7,52 @@ var memory: IdentityMemory
 var renderer: NarrativeRenderer
 var resolver: IdentityResolver
 var archivist: Archivist
+var audio: AudioManager
 
 # === VISUAL NODES ===
 var background: ColorRect
-var label: Label
+var label: Typewriter
 var echo_label: Label
 var day_label: Label
 
-# === COLORS ===
-var color_void = Color("#1a1e2e")
-var color_curiosity = Color("#1a3a6e")
-var color_compassion = Color("#5e1a3e")
-var color_stability = Color("#1a4e2e")
+# === SHADER BACKGROUND ===
+var bg_shader: ShaderMaterial
+var shader_color_top: Color = Color(0.08, 0.09, 0.15, 1.0)
+var shader_color_bottom: Color = Color(0.12, 0.14, 0.22, 1.0)
+var shader_color_accent: Color = Color(0.1, 0.12, 0.18, 1.0)
+var target_color_top: Color = Color(0.08, 0.09, 0.15, 1.0)
+var target_color_bottom: Color = Color(0.12, 0.14, 0.22, 1.0)
+var target_color_accent: Color = Color(0.1, 0.12, 0.18, 1.0)
 
-# Background animation
-var current_color: Color
-var target_color: Color
+# Phase atmosphere targets
+var target_fog_density: float = 0.15
+var target_breathing: float = 0.5
+var target_vignette: float = 0.4
+var target_time_scale: float = 0.3
+var phase_color_modifier: Color = Color(0.0, 0.0, 0.0, 0.0)
+var target_phase_modifier: Color = Color(0.0, 0.0, 0.0, 0.0)
+
+# Psyche color palettes
+var palette_curiosity = {
+	"top": Color(0.06, 0.1, 0.2),
+	"bottom": Color(0.1, 0.18, 0.35),
+	"accent": Color(0.08, 0.15, 0.3)
+}
+var palette_compassion = {
+	"top": Color(0.15, 0.08, 0.12),
+	"bottom": Color(0.28, 0.12, 0.18),
+	"accent": Color(0.22, 0.1, 0.15)
+}
+var palette_stability = {
+	"top": Color(0.06, 0.12, 0.1),
+	"bottom": Color(0.1, 0.22, 0.16),
+	"accent": Color(0.08, 0.18, 0.13)
+}
+var palette_void = {
+	"top": Color(0.08, 0.09, 0.15),
+	"bottom": Color(0.12, 0.14, 0.22),
+	"accent": Color(0.1, 0.12, 0.18)
+}
 
 # Echo text animation
 var echo_opacity: float = 0.0
@@ -51,36 +81,45 @@ const PSYCHE_LEAK_CHANCE: float = 0.15
 func _ready() -> void:
 	var viewport_size = get_viewport_rect().size
 	
-	# === CREATE BACKGROUND ===
+	# === CREATE SHADER BACKGROUND ===
 	background = ColorRect.new()
-	background.color = color_void
 	background.position = Vector2.ZERO
 	background.size = viewport_size
-	add_child(background)
 	
-	current_color = color_void
-	target_color = color_void
+	var shader = load("res://shaders/background.gdshader")
+	bg_shader = ShaderMaterial.new()
+	bg_shader.shader = shader
+	bg_shader.set_shader_parameter("color_top", shader_color_top)
+	bg_shader.set_shader_parameter("color_bottom", shader_color_bottom)
+	bg_shader.set_shader_parameter("color_accent", shader_color_accent)
+	bg_shader.set_shader_parameter("time_scale", 0.3)
+	bg_shader.set_shader_parameter("fog_density", 0.15)
+	bg_shader.set_shader_parameter("vignette_strength", 0.4)
+	bg_shader.set_shader_parameter("breathing", 0.5)
+	background.material = bg_shader
+	add_child(background)
 	
 	# === CREATE ARCHIVIST ===
 	archivist = Archivist.new()
 	add_child(archivist)
 	
 	# === CREATE LABELS ===
-	label = Label.new()
-	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	label.position = Vector2(viewport_size.x / 2 - 350, viewport_size.y * 0.05)
-	label.size = Vector2(700, 280)
-	label.add_theme_font_size_override("font_size", 17)
+	label = Typewriter.new()
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	label.position = Vector2(40, 60)
+	label.size = Vector2(480, 600)
+	label.add_theme_font_size_override("font_size", 16)
 	label.add_theme_color_override("font_color", Color("#c8cad0"))
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD
 	add_child(label)
+
 	
 	echo_label = Label.new()
-	echo_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-	echo_label.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
-	echo_label.position = Vector2(viewport_size.x / 2 - 300, viewport_size.y * 0.38)
-	echo_label.size = Vector2(600, 150)
+	echo_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	echo_label.vertical_alignment = VERTICAL_ALIGNMENT_TOP
+	echo_label.position = Vector2(60, viewport_size.y * 0.75)
+	echo_label.size = Vector2(440, 120)
 	echo_label.add_theme_font_size_override("font_size", 15)
 	echo_label.add_theme_color_override("font_color", Color("#a89060"))
 	echo_label.autowrap_mode = TextServer.AUTOWRAP_WORD
@@ -111,6 +150,10 @@ func _ready() -> void:
 	resolver = IdentityResolver.new()
 	add_child(resolver)
 	
+	audio = AudioManager.new()
+	add_child(audio)
+	# Typewriter tick sound per character
+	label.character_revealed.connect(func(_c): audio.play_typewriter_tick())
 	# === CONNECT SIGNALS ===
 	psyche.psyche_changed.connect(_on_psyche_changed)
 	psyche.voice_distorted.connect(_on_voice_distorted)
@@ -130,9 +173,30 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	# Background transition
-	current_color = current_color.lerp(target_color, delta * 0.8)
-	background.color = current_color
+	# Shader color transitions (smooth lerp)
+	shader_color_top = shader_color_top.lerp(target_color_top, delta * 0.5)
+	shader_color_bottom = shader_color_bottom.lerp(target_color_bottom, delta * 0.5)
+	shader_color_accent = shader_color_accent.lerp(target_color_accent, delta * 0.5)
+	
+	bg_shader.set_shader_parameter("color_accent", shader_color_accent)
+	
+	# Phase atmosphere transitions
+	var current_fog = bg_shader.get_shader_parameter("fog_density")
+	var current_breath = bg_shader.get_shader_parameter("breathing")
+	var current_vignette = bg_shader.get_shader_parameter("vignette_strength")
+	var current_time_scale = bg_shader.get_shader_parameter("time_scale")
+	
+	bg_shader.set_shader_parameter("fog_density", lerp(current_fog, target_fog_density, delta * 0.4))
+	bg_shader.set_shader_parameter("breathing", lerp(current_breath, target_breathing, delta * 0.3))
+	bg_shader.set_shader_parameter("vignette_strength", lerp(current_vignette, target_vignette, delta * 0.3))
+	bg_shader.set_shader_parameter("time_scale", lerp(current_time_scale, target_time_scale, delta * 0.2))
+	
+	# Phase color modifier (adds warmth/coolness on top of psyche blend)
+	phase_color_modifier = phase_color_modifier.lerp(target_phase_modifier, delta * 0.3)
+	var modified_top = shader_color_top + Color(phase_color_modifier.r, phase_color_modifier.g, phase_color_modifier.b, 0.0)
+	var modified_bottom = shader_color_bottom + Color(phase_color_modifier.r, phase_color_modifier.g, phase_color_modifier.b, 0.0)
+	bg_shader.set_shader_parameter("color_top", modified_top)
+	bg_shader.set_shader_parameter("color_bottom", modified_bottom)
 	
 	# Echo animation
 	echo_opacity = lerp(echo_opacity, echo_target_opacity, delta * 0.5)
@@ -155,6 +219,11 @@ func _input(event: InputEvent) -> void:
 	if not event is InputEventKey or not event.pressed:
 		return
 	
+	# Skip typewriter animation
+	if label.is_active() and event.keycode == KEY_SPACE:
+		label.skip_to_end()
+		return
+	
 	# During dilemma
 	if current_phase == 1 and not choice_made:
 		match event.keycode:
@@ -169,6 +238,39 @@ func _input(event: InputEvent) -> void:
 	if waiting_for_next_day and event.keycode == KEY_SPACE:
 		waiting_for_next_day = false
 		_start_day()
+
+
+# === PHASE LIGHTING ===
+
+func _set_phase_atmosphere(phase: int) -> void:
+	match phase:
+		0:  # MORNING — lighter, clearer, breathing slow
+			target_fog_density = 0.08
+			target_breathing = 0.3
+			target_vignette = 0.25
+			target_time_scale = 0.2
+			target_phase_modifier = Color(0.03, 0.03, 0.05, 1.0)
+			
+		1:  # AFTERNOON — normal, focused, still
+			target_fog_density = 0.12
+			target_breathing = 0.4
+			target_vignette = 0.35
+			target_time_scale = 0.25
+			target_phase_modifier = Color(0.0, 0.0, 0.0, 1.0)
+			
+		2:  # EVENING — warmer, settling, fog beginning
+			target_fog_density = 0.2
+			target_breathing = 0.6
+			target_vignette = 0.45
+			target_time_scale = 0.35
+			target_phase_modifier = Color(0.02, 0.01, -0.01, 1.0)
+			
+		3:  # NIGHT — deep, thick, intimate, slow
+			target_fog_density = 0.35
+			target_breathing = 0.8
+			target_vignette = 0.6
+			target_time_scale = 0.4
+			target_phase_modifier = Color(-0.02, -0.01, 0.02, 1.0)
 
 
 # === SUB-EXPRESSION SELECTION ===
@@ -237,6 +339,10 @@ func _enter_phase(phase: int) -> void:
 	var state = resolver.resolve(psyche, memory, current_day, phase)
 	archivist.update_from_state(state)
 	
+	# Set phase atmosphere
+	_set_phase_atmosphere(phase)
+	audio.set_phase(phase)
+
 	match phase:
 		0:  # MORNING
 			print("\n━━━━━━ ☀️  MORNING ━━━━━━")
@@ -281,7 +387,7 @@ func _end_day() -> void:
 		_show_ending()
 	else:
 		waiting_for_next_day = true
-		label.text = "The garden holds your shape.\nAnother day will come.\n\n[Press SPACE to continue]"
+		label.reveal("The garden holds your shape.\nAnother day will come.\n\n[Press SPACE to continue]")
 		print("    Press SPACE to begin Day %d..." % current_day)
 
 
@@ -324,7 +430,8 @@ func _make_player_choice(voice_name: String, sub_expression: String) -> void:
 	# Archivist reacts to the choice
 	archivist.update_from_state(state)
 	archivist.on_player_choice(voice_name, sub_expression)
-	
+	audio.play_choice_sound(voice_name)
+
 	print("\n    ► CHOSE: %s (%s)" % [voice_name.to_upper(), sub_expression])
 	print("    \"%s\"" % context)
 	
@@ -373,19 +480,24 @@ func _show_archivist_night_text() -> void:
 	
 	match current_day:
 		1:
-			label.text = "Across the Garden, the figure has paused.\n\nTheir hand rests in the dirt.\nThe shapes they were drawing have changed."
+			label.set_tone("intimate")
+			label.reveal("Across the Garden, the figure has paused.\n\nTheir hand rests in the dirt.\nThe shapes they were drawing have changed.")
 			if conf >= 0.5:
 				print("    [Archivist] Posture shifts — something registered.")
 			else:
 				print("    [Archivist] The figure is still. Uncertain.")
 		2:
-			label.text = "The figure is closer now.\nNot because they moved — because the Garden changed.\n\nWhen you look at them,\nsomething in their posture feels... familiar."
+			label.set_tone("intimate")
+			label.reveal("The figure is closer now.\nNot because they moved — because the Garden changed.\n\nWhen you look at them,\nsomething in their posture feels... familiar.")
 			var echo_text = _get_archivist_day2_echo(state)
 			echo_label.text = echo_text
 			echo_target_opacity = 0.6
 			print("    [Archivist] Echo: \"%s\"" % echo_text)
 		3:
-			label.text = "The figure stands.\n\nFor the first time since you arrived,\nthey face you directly.\n\nIn their hands — a book you've never seen.\nThey open it slowly."
+			audio.play_page_turn()      
+			audio.play_writing(archivist.confidence)
+			label.set_tone("intimate")
+			label.reveal("The figure stands.\n\nFor the first time since you arrived,\nthey face you directly.\n\nIn their hands — a book you've never seen.\nThey open it slowly.")
 			var echo_text = _get_archivist_day3_echo(state, conf)
 			echo_label.text = echo_text
 			echo_target_opacity = 1.0
@@ -417,6 +529,7 @@ func _get_archivist_day2_echo(state: Dictionary) -> String:
 			return "...changing... still changing..."
 
 
+@warning_ignore("unused_parameter")
 func _get_archivist_day3_echo(state: Dictionary, conf: float) -> String:
 	if conf >= 0.75:
 		return "\"I think I understand you.\nNot completely — no one is complete —\nbut the shape repeats.\nI could draw you from memory now.\""
@@ -587,6 +700,9 @@ func _show_ending() -> void:
 	# Archivist enters offering posture
 	archivist.enter_offering(conf)
 	
+	# Set night atmosphere for ending
+	_set_phase_atmosphere(3)
+	
 	# Build the ending sequence
 	var archivist_line = _get_archivist_final_line(conf)
 	var ending_text = _get_ending_text(dominant, dominant_expr)
@@ -594,12 +710,14 @@ func _show_ending() -> void:
 	# Show Archivist's line first, then the ending
 	echo_label.text = archivist_line
 	echo_target_opacity = 1.0
-	label.text = "The Archivist opens the book.\nEvery page is blank except one.\n\n\"I spent three days trying to understand you.\"\n\nThey look up.\n\n\"This is the closest I could get.\""
+	label.set_tone("intimate")
+	label.reveal("The Archivist opens the book.\nEvery page is blank except one.\n\n\"I spent three days trying to understand you.\"\n\nThey look up.\n\n\"This is the closest I could get.\"")
 	
 	# After a delay, show the actual ending
-	var timer = get_tree().create_timer(6.0)
+	var timer = get_tree().create_timer(8.0)
 	timer.timeout.connect(func():
-		label.text = ending_text
+		label.set_tone("intimate")
+		label.reveal(ending_text)
 		echo_target_opacity = 0.0
 	)
 	
@@ -683,15 +801,26 @@ func _on_psyche_changed(identity_vector: Dictionary) -> void:
 	if total == 0:
 		return
 	
-	target_color = (
-		color_curiosity * (curiosity / total) +
-		color_compassion * (compassion / total) +
-		color_stability * (stability / total)
-	)
+	# Blend palettes based on psyche weights
+	var c_weight = curiosity / total
+	var comp_weight = compassion / total
+	var s_weight = stability / total
 	
-	var max_level = max(curiosity, max(compassion, stability))
-	var boost = remap(max_level, 40.0, 85.0, 0.0, 0.2)
-	target_color = target_color.lightened(clamp(boost, 0.0, 0.2))
+	target_color_top = (
+		palette_curiosity["top"] * c_weight +
+		palette_compassion["top"] * comp_weight +
+		palette_stability["top"] * s_weight
+	)
+	target_color_bottom = (
+		palette_curiosity["bottom"] * c_weight +
+		palette_compassion["bottom"] * comp_weight +
+		palette_stability["bottom"] * s_weight
+	)
+	target_color_accent = (
+		palette_curiosity["accent"] * c_weight +
+		palette_compassion["accent"] * comp_weight +
+		palette_stability["accent"] * s_weight
+	)
 
 
 func _on_identity_updated(_identity_vector: Dictionary) -> void:
@@ -714,8 +843,9 @@ func _on_convergence_approaching(voice_name: String, level: float) -> void:
 	print("  ⚡ CONVERGENCE: %s at %.1f" % [voice_name, level])
 
 
-func _on_display_text(text: String, _style: String) -> void:
-	label.text = text
+func _on_display_text(text: String, style: String) -> void:
+	label.set_tone(style)
+	label.reveal(text)
 
 
 func _on_display_echo(text: String, _speaker: String, _tone: String) -> void:
@@ -730,9 +860,11 @@ func _on_clear_echo() -> void:
 func _on_visual_event(event_type: String, params: Dictionary) -> void:
 	match event_type:
 		"brighten":
-			target_color = current_color.lightened(params.get("amount", 0.05))
+			target_color_top = shader_color_top.lightened(params.get("amount", 0.05))
+			target_color_bottom = shader_color_bottom.lightened(params.get("amount", 0.05))
 		"darken":
-			target_color = current_color.darkened(params.get("amount", 0.03))
+			target_color_top = shader_color_top.darkened(params.get("amount", 0.03))
+			target_color_bottom = shader_color_bottom.darkened(params.get("amount", 0.03))
 
 
 # === UTILITY ===
