@@ -1,677 +1,585 @@
-BECOMING — Project Bible
 
-What This Document Is
+# BECOMING — Game Design Document v3.0
 
-This is the complete context for the game "Becoming." It contains the design philosophy, architecture, narrative direction, all key decisions made during development, and the current state of the codebase. A collaborating AI should read this to understand the project deeply — but should NOT treat it as a set of instructions. This is knowledge, not constraint.
+## What Changed and Why
 
-Part 1: What Is Becoming?
+Version 1 was an identity game: "Who are you?"
+Version 2 is a tragedy of limited knowledge: "What kind of world is this?"
 
-A quiet, psyche-driven game where three internal voices shape who you are becoming — observed by a silent figure who is trying, imperfectly, to understand you.
+The systems remain. The philosophy transforms.
 
-It is not a decision tree. It is not a visual novel. It is not a walking simulator.
+The player no longer learns who they are. They lose certainty about what's right. They don't leave thinking "I learned who I am." They leave thinking "I no longer know what the right thing would have been."
 
-It is a meaning system that uses game mechanics as its form.
+This is the Outer Wilds feeling. Not tragedy. Not sentimentality. Recognition.
 
-The player spends 15-20 minutes making choices. At the end, something will try — imperfectly, tenderly — to tell them who those choices made them. Not perfectly. Not completely. But honestly. And the attempt itself will move them.
+---
 
-The Three Pillars
+## Part 1: What Is Becoming?
 
-The game was born from fusing three inspirations:
+A quiet, morally devastating game where a silent figure — the Archivist — watches the player make choices in a world that refuses to reveal the full picture. Every choice seems right. Every choice has consequences the player couldn't see. Playing again doesn't fix it — it shows a different shape of the same loss.
 
-- Disco Elysium — Internal voices AS gameplay. Identity as a thing that shifts, degrades, and reforms. The psyche is not a backdrop — it IS the game system.
+It is not a personality quiz.
+It is not a decision tree.
+It is not a therapy exercise.
 
-- Journey — Wordless emotional architecture. Proving that meaning doesn't require dialogue trees. The world itself communicates.
+It is a tragedy of limited knowledge that uses game mechanics as its form.
 
-- Kentucky Route Zero — Poetic ambiguity. Choices that don't branch a plot but define a self. Architecture as metaphor.
+The player spends 15-20 minutes making choices in concrete scenes. At the end, the Archivist — who has been trying to understand the same question the player has — opens a book and says the closest thing to truth it could find. Not an answer. A recognition.
 
-The Core Insight (from early design)
+And the player sits in silence afterward. Not because the game told them a lesson. But because it showed them a truth that was already there.
 
-"Your game is not a decision tree pretending to be meaningful. It is a meaning system pretending to be a game."
+### The Core Insight
 
-"Your game is not a decision tree pretending to be meaningful. It is a meaning system pretending to be a game."
+"The player's enemy isn't evil. It isn't themselves. It isn't even fate. It's the fact that every choice is made from incomplete information. Just like life."
 
-"This is not an invention. It is an inevitability. It was always going to come out of you."
+### The Three Pillars (Revised)
 
-"This is not an invention. It is an inevitability. It was always going to come out of you."
+- **Outer Wilds** — The feeling of understanding something you didn't understand before. Grief mixed with revelation. A universe that isn't cruel — just indifferent. And beautiful anyway.
 
-Part 2: The Three Voices
+- **Disco Elysium** — Internal voices as gameplay. But the player never sees the labels. Psychology is infrastructure, not interface. The system decides what choices mean. Not the player.
 
-VoiceCore DriveSub-ExpressionsCuriosityThe need to know, explore, understandExploration, Confrontation, Self-InquiryCompassionThe need to connect, heal, tendCare, Sacrifice, AttunementStabilityThe need to hold, preserve, endurePatience, Control, Detachment
+- **Kentucky Route Zero** — Poetic ambiguity. Choices that don't branch a plot but define a perspective. Concrete places that feel like dreams. Architecture as metaphor.
 
-VoiceCore DriveSub-Expressions
+### What Success Looks Like (Revised)
 
-Voice
+A player finishes, sits quietly, and thinks: "I did my best. And it still wasn't enough. And neither was any other option." They want to play again — not to win differently, but to see what truth looks like from a different angle. And they discover: every angle contains its own grief.
 
-Core Drive
+---
 
-Sub-Expressions
+## Part 2: The Thematic Core
 
-CuriosityThe need to know, explore, understandExploration, Confrontation, Self-Inquiry
+### The Central Questions
 
-Curiosity
+The game is built around questions that have no clean answers:
 
-The need to know, explore, understand
+- Is choosing someone a form of violence toward all the people you didn't choose?
+- Can love become possession?
+- Can kindness become self-erasure?
+- Is detachment wisdom or avoidance?
+- Are we responsible for consequences we couldn't predict?
+- Can two good values genuinely conflict — irreconcilably?
+- Do we owe something to people who exist because of our choices?
 
-Exploration, Confrontation, Self-Inquiry
+These are not personality questions. These are world questions.
 
-CompassionThe need to connect, heal, tendCare, Sacrifice, Attunement
+### The Themes
 
-Compassion
+| Theme | What It Means | How It Appears |
+|-------|--------------|----------------|
+| Memory | The past is not fixed — it changes depending on who remembers | Objects that tell different truths |
+| Responsibility | You caused something. You didn't mean to. It happened anyway. | Consequences revealed late |
+| Sacrifice | Giving something up doesn't always help the person you gave it for | Choices that backfire tenderly |
+| Attachment | Holding on and letting go are both forms of love and violence | Objects, people, places that linger |
+| Consequence | Every action ripples. You only see one ripple at a time. | Scenes that reveal hidden costs |
+| Ambiguity | The right answer doesn't exist. Multiple truths coexist. | Contradictions the game never resolves |
 
-The need to connect, heal, tend
+### The Rule
 
-Care, Sacrifice, Attunement
+The game never resolves contradictions. It holds them. A player who chose "correctly" still encounters loss. A player who chose "wrong" still encounters beauty. The game is not a moral judge. It is a moral mirror.
 
-StabilityThe need to hold, preserve, endurePatience, Control, Detachment
+---
 
-Stability
+## Part 3: The Three Lenses (Formerly "Voices")
 
-The need to hold, preserve, endure
+The system still uses three forces. But they are no longer personality traits. They are moral lenses — each one tells a different truth about the same event.
 
-Patience, Control, Detachment
+| Lens | What It Sees | What It Misses | Sub-Lenses |
+|------|-------------|---------------|------------|
+| Inquiry | The need to know, to understand, to look closer — even when looking hurts | That some truths, once known, cannot be unknown | Exploration, Confrontation, Self-Questioning |
+| Tenderness | The need to care, to hold, to protect — even at cost to self | That protection can become control, and sacrifice can become erasure | Care, Sacrifice, Attunement |
+| Stillness | The need to endure, to accept, to let what will happen happen | That acceptance can become avoidance, and patience can become paralysis | Patience, Acceptance, Detachment |
 
-How They Work
+### The Critical Difference
 
-- Every player choice reinforces one voice and weakens another
+In v1: "You chose Curiosity." The player sees this.
+In v2: "You pressed play on the tape." The system silently interprets this as Inquiry-Exploration. The player never knows.
 
-- Voices have health states: Healthy → Weakened → Distorted
+The labels are infrastructure. Not interface. The player experiences situations. The system experiences categories. These two layers never meet in the player's consciousness.
 
-- Distorted voices corrupt their own philosophy (e.g., Curiosity becomes obsessive, Compassion becomes self-destructive, Stability becomes paralysis)
+### How They Work (Mechanically Unchanged)
 
-- Sub-expressions determine HOW a voice speaks — not just IF
+- Every player choice reinforces one lens and weakens another
+- Lenses have health states: Healthy → Strained → Distorted
+- Distorted lenses corrupt their own logic (Inquiry becomes obsession, Tenderness becomes self-destruction, Stillness becomes paralysis)
+- Sub-lenses determine the texture of interpretation
+- The same lens (Inquiry) manifests completely differently in "exploration" mode vs. "confrontation" mode
 
-- The same voice (Curiosity) sounds completely different in "exploration" mode vs. "confrontation" mode
+### Psyche Leak (15%)
 
-The Psyche Leak (15%)
+Still present. Still 15%.
 
-- 15% of the time, a voice speaks RAW — unfiltered by the resolver
+But its meaning shifts: it's no longer "a random voice breaking through." It's the moral truth you're suppressing — the version of events you chose NOT to follow — bleeding into your awareness uninvited.
 
-- Like an intrusive thought breaking through resolved identity
+Like remembering the face of the person you didn't help. While helping someone else.
 
-- This prevents over-determination and keeps the system alive
+---
 
-- Creates moments of surprise for both the player and the developer
+## Part 4: The Archivist (Revised)
 
-Part 3: The Archivist
+### The Old Archivist
 
-The Design Evolution
+Tried to understand YOU. Mirrored your identity. Classified you.
 
-The game originally had:
+### The New Archivist
 
-- A "memory seed" (golden square that grew with choices)
+Tries to understand a QUESTION. And you keep becoming evidence.
 
-- A "Future Self" (separate entity that appeared at Night to speak)
+The Archivist is not studying the player. The Archivist is studying the same unsolvable problem the player is — through the player's choices. The Archivist is a fellow investigator. Not a judge. Not a mirror. A collaborator who is also failing.
 
-These were replaced by The Archivist — a single unified entity that absorbs both roles.
-
-Who The Archivist Is
-
-The Archivist is NOT:
-
-- An observer (too passive)
-
-- A judge (too authoritative)
-
-- A companion (too relational)
-
-- A narrator (too omniscient)
-
-- An NPC (too functional)
+### Who The Archivist Is
 
 The Archivist IS:
 
-- An unresolved self that is trying to understand the player
+- A being who has been studying a question longer than the player has been present
+- Someone who thought the player's choices would finally answer it
+- Increasingly uncertain as the player reveals contradictions
+- Frustrated. Tender. Vulnerable. Imperfect.
+- The first character in the game who admits: "I don't know either."
 
-- A consequence of the player's choices
+The Archivist is NOT:
 
-- A mystery that gradually becomes a mirror
+- Omniscient
+- A narrator
+- A judge
+- A personality classifier
+- A self-help guide
 
-- The embodiment of the Resolver's attempt to classify a human being
+### The Progressive Reveal (Revised)
 
-The Progressive Reveal
+| Day | What The Player Sees | What The Archivist Does | Mystery |
+|-----|---------------------|------------------------|---------|
+| Day 1 | A figure. Digging in dirt. Silent. Watching. | Unearths objects. Places them before the player. Steps back. | "Who is this? Why are they digging?" |
+| Day 2 | The figure is closer. Their posture mirrors yours. They've moved objects around — as if rearranging evidence. | Starts scratching out previous notes. Writes over them. Pauses longer. | "Are they studying me? Or studying what I found?" |
+| Day 3 | The figure stands. Faces you directly. Holds a book. Opens it. Speaks for the first time. | Says: "I thought you would be easier to understand." Then reads from the book. | "This being has been failing alongside me." |
 
-DayWhat the Player SeesMystery LevelDay 1A figure sits across the Garden. Drawing shapes in the dirt. Doesn't acknowledge you."Who is that?"Day 2The figure is closer. Not because they moved — the Garden changed. Symbols surround them. Their posture resembles yours."Why familiar?"Day 3The figure stands. They have a book. They open it. They speak for the first time."Your choices made me."
+### The Archivist's Final Line (Confidence-Driven)
 
-DayWhat the Player SeesMystery Level
+**High confidence (≥0.75):**
+> "I think I understand now. Not you — the question. The answer is that it was always going to end this way. No matter which object you touched first."
 
-Day
+**Provisional confidence (0.4–0.74):**
+> "I tried to find the answer in what you did. A pattern kept forming — then dissolving. Perhaps the question doesn't have one shape."
 
-What the Player Sees
-
-Mystery Level
-
-Day 1A figure sits across the Garden. Drawing shapes in the dirt. Doesn't acknowledge you."Who is that?"
-
-Day 1
-
-A figure sits across the Garden. Drawing shapes in the dirt. Doesn't acknowledge you.
-
-"Who is that?"
-
-Day 2The figure is closer. Not because they moved — the Garden changed. Symbols surround them. Their posture resembles yours."Why familiar?"
-
-Day 2
-
-The figure is closer. Not because they moved — the Garden changed. Symbols surround them. Their posture resembles yours.
-
-"Why familiar?"
-
-Day 3The figure stands. They have a book. They open it. They speak for the first time."Your choices made me."
-
-Day 3
-
-The figure stands. They have a book. They open it. They speak for the first time.
-
-"Your choices made me."
-
-The Key Principle
-
-"The Archivist should not merely observe the player. The Archivist should be the unresolved self that is trying to understand the player."
-
-"The Archivist should not merely observe the player. The Archivist should be the unresolved self that is trying to understand the player."
-
-The difference between "I recorded your choices" and "Your choices made me" is the difference between a game that reports and a game that haunts.
-
-The Book
-
-The book does NOT appear until Day 3. Before that:
-
-- Day 1: Drawing in dirt (transient, uncertain)
-
-- Day 2: Symbols around them (pattern emerging)
-
-- Day 3: The book (permanence, crystallization)
-
-The book is a reveal, not a prop.
-
-The Systems Merge
-
-The Archivist narratively absorbs four internal systems:
-
-SystemWhat the Player ExperiencesMemory"The Archivist remembers"Resolver"The Archivist interprets"Future Self"The Archivist's final form"Psyche (visible)"The Archivist's body/posture"
-
-SystemWhat the Player Experiences
-
-System
-
-What the Player Experiences
-
-Memory"The Archivist remembers"
-
-Memory
-
-"The Archivist remembers"
-
-Resolver"The Archivist interprets"
-
-Resolver
-
-"The Archivist interprets"
-
-Future Self"The Archivist's final form"
-
-Future Self
-
-"The Archivist's final form"
-
-Psyche (visible)"The Archivist's body/posture"
-
-Psyche (visible)
-
-"The Archivist's body/posture"
-
-Four systems. One character. This is the sign of mature narrative design.
-
-Part 4: Interpretive Confidence
-
-The Two Channels of the Resolver
-
-ChannelWhat It RepresentsIdentity StateBest interpretation of who the player became (dominant_voice, expression, character, tension, valence)Interpretive ConfidenceHow stable and legible that interpretation is (0.0–1.0: certain, provisional, fractured)
-
-ChannelWhat It Represents
-
-Channel
-
-What It Represents
-
-Identity StateBest interpretation of who the player became (dominant_voice, expression, character, tension, valence)
-
-Identity State
-
-Best interpretation of who the player became (dominant_voice, expression, character, tension, valence)
-
-Interpretive ConfidenceHow stable and legible that interpretation is (0.0–1.0: certain, provisional, fractured)
-
-Interpretive Confidence
-
-How stable and legible that interpretation is (0.0–1.0: certain, provisional, fractured)
-
-The Rule
-
-Confidence is not moral certainty. It is classification stability.
-
-A player can be consistently contradictory and still produce high confidence — if the contradiction itself is stable.
-
-Confidence → Archivist Emotion
-
-ConfidenceArchivist ToneBehaviorBook StateCertain (≥0.75)Clear, steadyStill, centeredClean page, one entryProvisional (0.4–0.74)Tentative, carefulShifting weightCorrections visibleFractured (<0.4)Uncertain, questioningFragmented, restlessCrossed-out lines, arrows
-
-ConfidenceArchivist ToneBehaviorBook State
-
-Confidence
-
-Archivist Tone
-
-Behavior
-
-Book State
-
-Certain (≥0.75)Clear, steadyStill, centeredClean page, one entry
-
-Certain (≥0.75)
-
-Clear, steady
-
-Still, centered
-
-Clean page, one entry
-
-Provisional (0.4–0.74)Tentative, carefulShifting weightCorrections visible
-
-Provisional (0.4–0.74)
-
-Tentative, careful
-
-Shifting weight
-
-Corrections visible
-
-Fractured (<0.4)Uncertain, questioningFragmented, restlessCrossed-out lines, arrows
-
-Fractured (<0.4)
-
-Uncertain, questioning
-
-Fragmented, restless
-
-Crossed-out lines, arrows
-
-The Strongest Image
-
-High confidence: the Archivist writes in one continuous motion.
-Low confidence: the Archivist pauses, scratches out lines, rewrites the same sentence, then closes the book before you can read it.
-
-The Final Lines (Confidence-Driven)
-
-Certain:
-
-"I think I understand you. Not completely — no one is complete — but the shape repeats. The same door, the same turning, the same refusal. I could draw you from memory now."
-
-"I think I understand you. Not completely — no one is complete — but the shape repeats. The same door, the same turning, the same refusal. I could draw you from memory now."
-
-Provisional:
-
-"I tried to understand you. A pattern kept forming, then softening, then returning. I can describe the weather around you better than I can describe you."
-
-"I tried to understand you. A pattern kept forming, then softening, then returning. I can describe the weather around you better than I can describe you."
-
-Fractured:
-
-"I thought I knew you. Then you changed. Or perhaps I was the one changing while I watched. I have a page full of arrows pointing at one another and no final direction."
-
-"I thought I knew you. Then you changed. Or perhaps I was the one changing while I watched. I have a page full of arrows pointing at one another and no final direction."
+**Fractured confidence (<0.4):**
+> "I thought you would be easier to understand. I thought the question would be easier to answer. I have a book full of contradictions and no resolution. Perhaps that is the resolution."
 
 Then, regardless:
+> "I've been studying this longer than you've been here. And I still don't know."
 
-"I spent three days trying to understand you. This is the closest I could get."
+---
 
-"I spent three days trying to understand you. This is the closest I could get."
+## Part 5: Interpretive Confidence (Revised Meaning)
 
-Part 5: The Day Cycle
+### The Two Channels of the Resolver
 
-Structure: 3 Days, 4 Phases Each
+| Channel | Old Meaning | New Meaning |
+|---------|------------|-------------|
+| Identity State | Who the player became | Which version of truth the player is constructing |
+| Interpretive Confidence | How knowable the player is | How coherent the player's moral logic is — NOT how "correct" it is |
 
-PhaseDurationWhat HappensArchivistMorning6sWorld awakens, voices observe the GardenDrawing/working in peripheryAfternoonPlayer-pacedDilemma presented, player choosesPauses. Watches. Shifts.Evening6sVoices reflect, world settlesResumes with new urgency/stillnessNight8sDeepest interactionClosest. Almost communicating.
+### Confidence Is Not Moral Certainty
 
-PhaseDurationWhat HappensArchivist
+A player who consistently follows one lens has high confidence — their moral framework is stable. It doesn't mean they're right.
 
-Phase
+A player who contradicts themselves has low confidence — their moral framework is unstable. It doesn't mean they're wrong.
 
-Duration
+The most devastating ending might be: high confidence, clear moral logic, and the Archivist gently showing you what your clarity cost.
 
-What Happens
+### Confidence → Archivist Emotion (Unchanged Mechanically)
 
-Archivist
+| Confidence | Archivist Tone | Behavior | Book State |
+|-----------|---------------|----------|-----------|
+| Certain (≥0.75) | Clear, almost sad | Still, centered | One clean entry — definitive |
+| Provisional (0.4–0.74) | Tentative, searching | Shifting weight | Corrections visible |
+| Fractured (<0.4) | Uncertain, questioning | Restless | Crossed-out lines, arrows, contradictions |
 
-Morning6sWorld awakens, voices observe the GardenDrawing/working in periphery
+---
 
-Morning
+## Part 6: Scene Design (NEW)
 
-6s
+### The Philosophy of Scenes
 
-World awakens, voices observe the Garden
+Every scene must follow these rules:
 
-Drawing/working in periphery
+1. **Concrete over abstract.** Rain on glass. Not "a feeling of loss."
+2. **Place before meaning.** Every scene exists in a specific location with sensory detail.
+3. **Choices are actions.** The player presses play. They don't "choose inquiry."
+4. **Show, never tell.** The psychology is invisible to the player. Always.
+5. **Mystery over clarity.** The player should be slightly unsure — and that should feel beautiful.
+6. **Emotion emerges from specificity.** "She left her reading glasses on the counter" > "She was gone forever."
 
-AfternoonPlayer-pacedDilemma presented, player choosesPauses. Watches. Shifts.
+### Scene Structure
 
-Afternoon
+Each scene contains:
 
-Player-paced
+- **A place** (sensory, specific, atmospheric)
+- **An object or situation** (something recognizable, mysterious)
+- **The Archivist's presence** (watching, doing something, never explaining)
+- **A choice** (three actions — never labeled, never explained)
+- **A consequence** (revealed later, not immediately)
 
-Dilemma presented, player chooses
+### The Multiple-Truth Structure
 
-Pauses. Watches. Shifts.
+The game's deepest mechanic: each object in a scene tells a different version of the same event. The player picks one. Believes it. Later discovers all versions are true. And contradictory.
 
-Evening6sVoices reflect, world settlesResumes with new urgency/stillness
+Example:
+- The train ticket says: They left.
+- The cassette tape says: They stayed.
+- The photograph says: Neither is true.
 
-Evening
+The game never resolves which version "really" happened. Because all of them did. Depending on who is remembering.
 
-6s
+### Scene Locations (Library)
 
-Voices reflect, world settles
+Scenes should feel like places, not levels:
 
-Resumes with new urgency/stillness
+| Location | Atmosphere | Emotional Texture |
+|----------|-----------|-------------------|
+| The Greenhouse | Rain on glass, warmth, trapped growth | Nurture vs. containment |
+| The Flooded Train Station | Water covering tracks, one train still running | Departure, missed chances |
+| The Empty Apartment | Someone moved out years ago, everything remains | Presence of absence |
+| The Observatory | A telescope aimed somewhere impossible | Seeking what can't be reached |
+| The Orchard | Fruit falling before it ripens | Things ending too early |
+| The Museum of Unfinished Things | Half-painted canvases, letters without endings | Incompletion as permanent state |
 
-Night8sDeepest interactionClosest. Almost communicating.
+### The First Scene (Framework)
 
-Night
+Rain taps against greenhouse glass.
 
-8s
+The Archivist is kneeling in the dirt. Not writing. Digging. Slowly. Carefully.
 
-Deepest interaction
+When they notice you watching, they stop.
 
-Closest. Almost communicating.
+They pull a rusted metal box from the earth. The box is familiar. You don't know why.
 
-The Three Dilemmas
+They place it between you. Then step back.
 
-Day 1 — The Memory: A memory of being understood by someone now gone. Open it? Hold it gently? Set it down?
+Inside:
+- a cassette tape
+- a train ticket
+- a photograph whose face has faded
 
-Day 2 — The Path: A fork between something you've always wanted and someone who needs you. Walk toward want? Return to need? Wait?
+You recognize all three. You do not remember from where.
 
-Day 3 — The Legacy: The Garden asks what you'll leave behind. A door? A warmth? Steady ground?
+The Archivist waits. The greenhouse is silent except for the rain.
 
-Part 6: Architecture
+**What do you touch first?**
 
-File Structure
+[The system silently maps: tape = Inquiry, ticket = Stillness, photograph = Tenderness. The player never sees this.]
 
+---
+
+## Part 7: The Day Cycle (Revised Pacing)
+
+### Critical Change: Player Controls Pacing
+
+Text NEVER auto-advances. Nothing moves until the player is ready.
+
+Old: Phase timers remove text.
+New: Text stays until the player presses SPACE or clicks.
+
+The only exception: ambient text (rain sounds, background descriptions) which can drift.
+
+### Structure: 3 Days, 4 Phases Each
+
+| Phase | What Happens | Archivist | Player Control |
+|-------|-------------|-----------|---------------|
+| Arrival | Scene establishes — place, atmosphere, sensory detail | Present. Doing something. Silent. | Player reads at own pace. SPACE to continue. |
+| Discovery | The object/situation is revealed. Tension builds. | Pauses. Watches. Shifts. | Player reads. SPACE to continue. |
+| Choice | Three actions presented — no labels, no explanation | Steps back. Waiting. | Player chooses (1/2/3 or click) |
+| Aftermath | Consequence begins to unfold. Not fully — just a hint. | Reacts — writes, scratches out, shifts posture. | Player reads. SPACE to continue. |
+
+### Between Days
+
+The night is no longer a separate phase — it's woven into the aftermath. The Archivist approaches closest during the aftermath, when the weight of the choice is still settling.
+
+Between days: a brief transition. Not explained. The world shifts. Something has changed because of what you did. You notice it in the details, not in narration.
+
+---
+
+## Part 8: The Endings (Revised)
+
+### The Old Ending
+
+"You became the one who opens doors." (Identity classification)
+
+### The New Ending
+
+The Archivist shows you what your choices meant — not for you, but for the world you moved through. And no matter what you chose, something was lost. Something beautiful. Something that can't be recovered.
+
+### Ending Philosophy
+
+- There is no "good" ending
+- There is no "bad" ending
+- There are only endings that show you a different angle of the same truth
+- The player should finish and think: "I did my best. And it still wasn't enough."
+- Playing again reveals: no option was "enough." That's the point.
+
+### Ending Structure
+
+1. The Archivist speaks (confidence-driven tone)
+2. The Archivist reads from the book (what your choices constructed)
+3. A final image — the consequence you couldn't see when you chose
+4. Silence.
+
+### Example Endings
+
+**Inquiry-dominant, high confidence:**
+> "You looked at everything. You opened every door. You played the tape to the end."
+>
+> [Beat]
+>
+> "Did you know that some things, once heard, cannot be unheard? The person in the photograph — they chose not to listen. They were not less brave. They were protecting something you chose to destroy."
+>
+> [The greenhouse glass is cracked now. Rain is getting in.]
+
+**Tenderness-dominant, low confidence:**
+> "You tried to hold everything gently. You tried not to break anything."
+>
+> [Beat]
+>
+> "But the tape was already breaking. The train was already leaving. By holding the photograph so carefully, you held nothing else."
+>
+> [The greenhouse is warm. But the plants have grown over the door. You cannot leave.]
+
+**Stillness-dominant, fractured:**
+> "You waited. You were patient. You didn't force anything."
+>
+> [Beat]
+>
+> "The train left without you. The tape degraded in the rain. The photograph faded completely while you watched."
+>
+> [The greenhouse is quiet. The rain has stopped. But so has everything else.]
+
+---
+
+## Part 9: Architecture (Unchanged)
+
+The systems architecture remains the same. What changes is what flows through it.
+
+### File Structure
+
+```
 res://
 ├── scripts/
 │   ├── core/
-│   │   ├── psyche_system.gd    → Voice levels, health, sub-expressions
-│   │   ├── voice.gd            → Individual voice resource
+│   │   ├── psyche_system.gd    → Lens levels, health, sub-lenses
+│   │   ├── voice.gd            → Individual lens resource
 │   │   ├── archivist.gd        → Visual entity, consumes resolver state
 │   │   └── identity_resolver.gd → Single source of truth + confidence
 │   ├── narrative/
 │   │   ├── dialogue_manager.gd  → Phase-aware dialogue routing
-│   │   ├── dialogue_data.gd     → Static content lines
+│   │   ├── dialogue_data.gd     → Scene content
 │   │   ├── narrative_renderer.gd → Content/display separation
-│   │   └── identity_memory.gd   → Choice history, patterns, flags
-│   └── world/
-│       └── main.gd              → Orchestrator: input, day cycle, wiring
-├── main.tscn
-└── addons/inkgd/                → Ink integration (GDScript version for Godot 4)
+│   │   └── identity_memory.gd   → Choice history, patterns, consequences
+│   ├── world/
+│   │   └── main.gd              → Orchestrator
+│   └── audio/
+│       └── audio_manager.gd     → Dynamic mixer
+├── shaders/
+│   └── background.gdshader      → Living atmosphere
+├── audio/
+│   ├── ambient/
+│   └── sfx/
+└── main.tscn
+```
 
-Data Flow
+### Data Flow (Revised Labels)
 
-Player Choice
+```
+Player Action (touches tape / takes ticket / holds photograph)
     ↓
-Psyche + Memory (record raw data)
+Psyche + Memory (record raw action — NO label shown)
     ↓
-Resolver (classify + calculate confidence)
+Resolver (silently classify lens + calculate coherence)
     ↓
-Resolved State {identity + confidence}
+Resolved State {moral_truth_version + coherence}
     ↓
 ┌────────────────────┐
-│ Archivist (visual) │ ← confidence → posture, tone, animation
-│ Renderer (text)    │ ← identity → what to say
-│ World (atmosphere) │ ← identity → color, fog, light
+│ Archivist (visual) │ ← coherence → posture, behavior, frustration
+│ Renderer (text)    │ ← truth_version → what consequence to reveal
+│ World (atmosphere) │ ← truth_version → how the scene changes
 └────────────────────┘
+```
 
-Architecture Rules
+### Architecture Rules (Unchanged)
 
 - Resolver = classifier + aggregator only. Never generates text.
-
 - Archivist consumes resolved state only. Never queries psyche/memory directly.
-
-- Psyche leaks (15%) bypass resolver for voice lines — emergent surprise.
-
+- Psyche leaks (15%) bypass resolver — the suppressed truth bleeding through.
 - Confidence never shown numerically — only through Archivist behavior.
-
 - One source of truth per moment. All downstream reads from resolver.
 
-Part 7: Design Philosophy
+---
 
-The Rules
+## Part 10: Design Philosophy (Revised)
 
-- Never over-explain. The player should feel meaning, not read it.
+### The Rules
 
-- Never optimize. No scores, no progress bars, no "better" endings.
+- **Never explain the psychology.** The player experiences situations. The system experiences categories. These layers never meet.
+- **Never label choices.** No "(Curiosity)". No "[Inquiry]". Actions only.
+- **Never resolve contradictions.** The game holds paradox. Multiple truths coexist.
+- **Never reward or punish.** There is no "better" ending. Only different angles.
+- **Concrete over abstract.** Rain, not "loss." A rusted box, not "a memory-seed."
+- **Player controls pacing.** Nothing auto-advances. Text stays until they're ready.
+- **The Archivist is not omniscient.** They're failing too. They admit it.
+- **Specificity creates emotion.** "Reading glasses on the counter" > "She was gone."
+- **The game asks world questions.** Not identity questions.
+- **Consequence is delayed.** You don't see what your choice cost until later. Sometimes not until the next playthrough.
 
-- Contradiction is human. The system holds paradox, doesn't resolve it.
-
-- The Archivist is not omniscient. Their understanding is imperfect — like all understanding.
-
-- Suggestive truth, not classified truth. The game suggests; never declares.
-
-- Emergent > Deterministic. Psyche leak, confidence variance, sub-expression coloring create surprise within structure.
-
-- The system should never fully agree about the player. A little contradiction is not a bug. It is the human part.
-
-What This Game Is NOT
+### What This Game Is NOT
 
 - NOT a personality quiz with a game skin
-
-- NOT a branching narrative (there's one story, but it changes color)
-
 - NOT a self-help app disguised as a game
+- NOT a branching narrative with good/bad endings
+- NOT a game about learning who you are
+- NOT a game that tells you the moral
 
-- NOT an optimization puzzle
+### What This Game IS
 
-- NOT about getting the "right" ending
+- A tragedy of limited knowledge
+- A game where every choice is right AND costly
+- A game where playing again doesn't fix anything — just shows different grief
+- A game about a question that has no answer
+- A game where the Archivist and the player are both failing — together
 
-What Success Looks Like
+---
 
-A player finishes, sits quietly for a moment, and thinks: "That was... me. But also not me. But closer to me than I expected." And they want to play again — not to "win" differently, but to meet a different version of the Archivist.
+## Part 11: The Writing Rules (NEW)
 
-Part 8: Key Design Decisions (and Why)
-
-1. Why Three Voices, Not Two or Four?
-
-Three creates a triangle — every choice reinforces one AND rejects another. Two is binary. Four is too diffuse for a 15-minute game. Three = tension + clarity.
-
-2. Why Sub-Expressions?
-
-So that "choosing Curiosity three times" doesn't produce the same person. Day 1 Curiosity (Exploration) vs. Day 3 Curiosity (Self-Inquiry) are different identities. The system recognizes depth, not just preference.
-
-3. Why The Archivist Instead of a Seed?
-
-The seed was symbolic but passive. The Archivist is relational. A seed growing is something you watch. An Archivist watching you is something you FEEL. The relationship creates the emotional impact.
-
-4. Why Confidence Instead of Just Identity?
-
-Because "who you became" is less interesting than "how knowable you were." A player who was consistent gets certainty. A player who contradicted themselves gets a confused, tender Archivist who TRIED to understand them. The attempt is more moving than the answer.
-
-5. Why Night Phase for Archivist Interaction?
-
-Night = vulnerability. It's when the player's guard is down (narratively). The Archivist approaches at the most intimate moment. Morning would feel clinical. Afternoon would compete with the dilemma. Night is where revelation lives.
-
-6. Why 3 Days Not 7?
-
-Scope discipline. Three days = three choices = one arc. The system produces 30+ unique ending experiences from just three decisions. Expand later only when each day adds genuine new mechanical possibility.
-
-7. Why Psyche Leak?
-
-Without it, the system becomes a perfectly obedient classifier. Voices only speak when "allowed." The leak makes them ALIVE — they break through, interrupt, remind the player that identity is not a clean process. This 15% is what makes the game feel human instead of algorithmic.
-
-Part 9: Technical Environment
-
-- Engine: Godot 4.6 (GDScript only, NOT C#/.NET version)
-
-- Platforms: Windows (office), Mac (home)
-
-- Version Control: GitHub (repo: cbochras/Becoming)
-
-- Sync: git push before leaving office, git pull when home
-
-- Target Export: PC/Mac first, then web (itch.io)
-
-- Solo developer, part-time — scope must respect this reality
-
-- Plugin: inkgd (GDScript version for Godot 4.x) — for future narrative expansion
-
-Part 10: Current State & What's Next
-
-✅ Complete
-
-- Full psyche system with sub-expressions and voice health
-
-- Identity memory with choice history and pattern detection
-
-- Identity resolver with single source of truth
-
-- Narrative renderer (content/display separation)
-
-- 3-day playtest loop with 12+ ending variations
-
-- Psyche leak (15% emergent surprise)
-
-- The Archivist entity (coded, replaces seed + future self)
-
-- Architecture pass (clean separation of concerns)
-
-- Visual world response to psyche state (background color shifts)
-
-- GitHub repo set up and syncing
-
-🔧 Current Focus: Phase 1 — Visual Polish
-
-- Gradient background + atmospheric fog shader
-
-- Archivist visual evolution (posture, glow, color)
-
-- Typewriter text system
-
-- Phase transition effects (morning → night lighting)
-
-- Text/Archivist overlap fixes
-
-📋 Future Phases
-
-- Phase 2: Audio layer (ambient drones, writing sounds, silence design)
-
-- Phase 3: Content expansion (more days, deeper sub-expressions, more endings)
-
-- Phase 4: Polish + Release (playtesting, UI, web export, itch.io page, trailer)
-
-Part 11: The Endings
-
-Structure
-
-Endings are determined by: dominant voice × dominant expression × confidence level
-
-This produces:
-
-- 3 voices × 3 expressions = 9 identity endings
-
-- × 3 confidence levels = 27 tonal variations
-
-- balanced/oscillator/late-shift specials = 30+ unique experiences
-
-Example Endings
-
-Curiosity-Exploration, High Confidence:
-
-"You became the one who opens doors. The Garden remembers you as wind — always moving, always seeking. But the doors you left open changed the shape of every room."
-
-"You became the one who opens doors. The Garden remembers you as wind — always moving, always seeking. But the doors you left open changed the shape of every room."
-
-Compassion-Sacrifice, Low Confidence:
-
-"You became... something the Archivist couldn't fully name. A giving that dissolved its own edges. The Garden remembers warmth where a person used to be."
-
-"You became... something the Archivist couldn't fully name. A giving that dissolved its own edges. The Garden remembers warmth where a person used to be."
-
-Balanced/Weather (No dominant):
-
-"You became no single thing. The Garden remembers you as weather — changing, contradicting, alive. Never the same twice. But in your inconsistency, something honest took root."
-
-"You became no single thing. The Garden remembers you as weather — changing, contradicting, alive. Never the same twice. But in your inconsistency, something honest took root."
-
-Part 12: Visual Direction
-
-Aesthetic
-
-- Minimalist but atmospheric
-
-- Dark backgrounds (deep indigo #1a1e2e)
-
-- Color as emotion (blue = curiosity, amber = compassion, green = stability)
-
-- Abstract forms (silhouettes, glows, particles — not realistic characters)
-
-- Space for projection (the less literal, the more the player fills in)
-
-The Archivist Visually
-
-- Abstract silhouette — gender-neutral, slightly ethereal
-
-- Posture states: sitting → leaning → standing → offering
-
-- Body responds to dominant voice (taller/rounder/heavier)
-
-- Glow color matches psyche blend
-
-- Confidence affects animation (smooth writing vs. hesitant scratching)
-
-- Sway amount inversely proportional to confidence (uncertain = more movement)
-
-Inspirations
-
-- Journey's sand and light
-
-- Gris's color-as-emotion
-
-- Kentucky Route Zero's theatrical staging
-
-- Limbo/Inside's silhouette storytelling
-
-- Celeste's internal landscape made visible
-
-Part 13: Tone of Writing
+### Tone
 
 The game's text should feel like:
-
 - Poetry, not instructions
-
-- Philosophical, not academic
-
 - Intimate, not dramatic
-
+- Specific, not abstract
 - Quiet, not loud
+- Haunting, not sad
 
-- Suggestive, not declarative
+### What NEVER Appears in Player-Facing Text
 
-Examples of the right tone:
+- The word "curiosity," "compassion," or "stability"
+- The word "inquiry," "tenderness," or "stillness" (as labels)
+- Any bracketed psychology markers
+- Any system language (confidence, resolve, identity, psyche)
+- Any text that explains what a choice "means"
 
-"The warmth is real. But so is the ache of absence."
-"Not thrown away — placed. Carefully. Like a stone returned to a riverbed."
-"I spent three days trying to understand you. This is the closest I could get."
+### What ALWAYS Appears
 
-"The warmth is real. But so is the ache of absence."
-"Not thrown away — placed. Carefully. Like a stone returned to a riverbed."
-"I spent three days trying to understand you. This is the closest I could get."
+- A place (with weather, texture, temperature)
+- An object (specific, recognizable, mysterious)
+- An action (something the player DOES, not thinks)
+- Silence (moments where nothing is said — and that silence means something)
+- The Archivist (present, watching, imperfect)
 
-Examples of the WRONG tone:
+### Examples of the Right Tone
 
-"You have chosen the path of curiosity! +10 insight."
-"The Archivist has analyzed your behavior patterns."
-"Congratulations! You've unlocked the Explorer ending."
+> "Rain taps against greenhouse glass."
+> "The tape clicks. The voice is familiar."
+> "They pull a rusted metal box from the earth."
+> "I thought you would be easier to understand."
+> "The train left without you. The photograph faded while you watched."
 
-"You have chosen the path of curiosity! +10 insight."
-"The Archivist has analyzed your behavior patterns."
-"Congratulations! You've unlocked the Explorer ending."
+### Examples of the WRONG Tone (v1 — now dead)
 
-End
+> "A memory-seed rests before you — pulsing, alive."
+> "[1] Open it fully. (Curiosity)"
+> "You became the one who opens doors."
+> "The voices settle. The garden breathes."
+> "Your curiosity becomes their doorway."
 
-This document is a living record. It will grow as the game grows. Any collaborating intelligence should treat it as deep context — not as instructions to follow blindly. The best contributions will be ones that surprise even this document.
+---
+
+## Part 12: Visual Direction (Revised)
+
+### The Shift
+
+Old: Abstract colored shapes on a gradient.
+New: Specific places. Atmosphere. Objects. A figure.
+
+### What Each Scene Needs Visually
+
+- A background that IS a place (greenhouse, station, apartment — not a gradient)
+- Objects the player can see (the box, the tape, the ticket, the photograph)
+- The Archivist as a distinct presence (silhouette with posture and behavior)
+- Weather (rain, fog, light) as emotional texture
+- Details that change based on choices (subtle — a crack in glass, a plant growing over a door)
+
+### The Archivist Visually (Revised)
+
+- Still abstract/silhouette — but with clear human posture
+- Gender-neutral, slightly ethereal
+- Actions visible: digging, writing, scratching out, standing, approaching
+- Posture responds to confidence (still vs. restless)
+- The book only appears Day 3
+
+### Art Direction Priorities
+
+1. **Place first** — each scene needs a background that communicates location
+2. **Objects second** — interactive elements that draw the eye
+3. **Archivist third** — the constant presence that evolves
+4. **Atmosphere fourth** — weather, particles, light shifts
+
+---
+
+## Part 13: Technical Environment (Unchanged)
+
+- Engine: Godot 4.6 (GDScript only)
+- Platforms: Windows (office), Mac (home)
+- Version Control: GitHub (repo: cbochras/Becoming)
+- Target Export: PC/Mac first, then web (itch.io)
+- Solo developer, part-time
+
+---
+
+## Part 14: Current State & Roadmap
+
+### ✅ Complete (Systems Layer)
+
+- Full psyche system with sub-lenses and health states
+- Identity memory with choice history and pattern detection
+- Identity resolver with single source of truth
+- Narrative renderer (content/display separation)
+- Interpretive confidence system
+- Psyche leak (15% emergent surprise)
+- Archivist visual entity (posture morphing, glow, sway)
+- Shader-based atmospheric background
+- Typewriter text system
+- Phase transition lighting
+- Audio manager with dynamic crossfading
+- GitHub repo syncing between office and home
+
+### 🔧 Current Focus: The Pivot (Script & Experience)
+
+- [ ] Write new scene scripts (concrete, specific, no labels)
+- [ ] Remove all psychology labels from player-facing text
+- [ ] Implement player-controlled pacing (no auto-advance)
+- [ ] Replace abstract "Garden" with specific scene locations
+- [ ] Make choices into visible actions (not numbered philosophies)
+- [ ] Redesign Archivist visual to look more like a figure, less like a window
+- [ ] Create background art for first scene (greenhouse)
+- [ ] Implement consequence delay system (choices cost isn't immediate)
+
+### 📋 Future Phases
+
+- Phase 3: Content expansion (more scenes, more objects, deeper consequences)
+- Phase 4: Visual art (scene backgrounds, object sprites, Archivist refinement)
+- Phase 5: Polish + Release (playtesting, UI, web export, itch.io, trailer)
+
+---
+
+## Part 15: The Promise
+
+When someone finishes this game, they will sit in silence. Not because the game was sad. Not because a character died. But because they understood something about the world — and about themselves — that they can't unfeel.
+
+They will think:
+
+"I did my best. And it still wasn't enough. And neither was any other option."
+
+And they will carry that with them. Not as a wound. As recognition.
+
+Like finishing Outer Wilds.
+Like the last scene of Kentucky Route Zero.
+Like closing a book that changed how you see everything.
+
+That is the game.
