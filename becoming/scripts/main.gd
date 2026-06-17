@@ -2,7 +2,6 @@ extends Node2D
 
 # === SYSTEMS ===
 var psyche: PsycheSystem
-var dialogue: DialogueManager
 var memory: IdentityMemory
 var renderer: NarrativeRenderer
 var resolver: IdentityResolver
@@ -138,8 +137,6 @@ func _ready() -> void:
 	psyche = PsycheSystem.new()
 	add_child(psyche)
 	
-	dialogue = DialogueManager.new(psyche)
-	add_child(dialogue)
 	
 	memory = IdentityMemory.new()
 	add_child(memory)
@@ -333,7 +330,6 @@ func _advance_phase() -> void:
 
 
 func _enter_phase(phase: int) -> void:
-	dialogue.set_phase(phase as DialogueManager.DayPhase)
 	
 	# Resolve identity state at every phase transition
 	var state = resolver.resolve(psyche, memory, current_day, phase)
@@ -464,12 +460,6 @@ func _trigger_voice_lines(context: String, max_voices: int) -> void:
 		if is_leak:
 			dominant_expr = "general"
 		
-		var result = DialogueData.get_line_modified(voice, context, dominant_expr)
-		if result.size() > 0:
-			if is_leak:
-				print("    💭 %s (LEAK|%s): \"%s\"" % [result["voice"], result["tone"], result["line"]])
-			else:
-				print("    %s (%s|%s): \"%s\"" % [result["voice"], result["sub_expression"], result["tone"], result["line"]])
 
 
 # === ARCHIVIST NIGHT TEXT ===

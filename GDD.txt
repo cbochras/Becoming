@@ -1,0 +1,446 @@
+
+# BECOMING — Game Design Document v3.0
+
+## The Investigation Pivot
+
+---
+
+## 1. CORE IDENTITY
+
+**Title:** BECOMING
+
+**Genre:** Investigative narrative / Interpretation game
+
+**Engine:** Godot 4.6+
+
+**Platform:** PC (Windows/Mac)
+
+**Art Style:** Painted 2.5D Minimal Realism
+
+**Duration:** 45–60 minutes (first arc); expandable
+
+**Developer:** Cherifa Bochras (solo dev, learning while building)
+
+---
+
+## 2. THE THESIS
+
+> "How do humans construct truth from incomplete evidence?"
+
+The player investigates. They gather fragments. They form theories. They commit to an interpretation. And they discover they were always incomplete.
+
+The enemy is not evil. It's not a villain. It's not the system.
+
+**The enemy is incomplete information. Just like life.**
+
+---
+
+## 3. WHAT THE PLAYER DOES (THE LOOP)
+
+```
+ARRIVE → EXPLORE → FIND → INSPECT → CONTRADICT → DECIDE → REGRET → REBUILD
+```
+
+Every location follows this:
+
+| Phase | What Happens | Player Agency |
+|-------|-------------|---------------|
+| ARRIVE | Enter a new space. Rain. Atmosphere. The Archivist is already there. | Look around. Take in the space. |
+| EXPLORE | Move through the location freely. No forced order. | Click objects, approach things, observe. |
+| FIND | Discover objects, notes, sounds, fragments. | Choose what to inspect first. Choose what to ignore. |
+| INSPECT | Each object reveals a piece of a story. | Read, listen, examine closely. |
+| CONTRADICT | Objects tell different versions of the same event. They can't all be true. Or can they? | Notice the conflicts. Form a theory. |
+| DECIDE | The Archivist asks a question. The player commits to an interpretation. | Choose what you believe. Not what you "are." |
+| REGRET | Later locations reveal: every object was true. Just incomplete. | Sit with the discomfort. |
+| REBUILD | Adjust understanding. Carry forward. Repeat. | Re-enter with new eyes. |
+
+---
+
+## 4. WHAT THIS IS NOT
+
+| It Is NOT | It IS |
+|-----------|-------|
+| A visual novel with choices | An investigation space with consequences |
+| "Read → pick option → read result" | "Explore → piece together → commit → discover" |
+| A psychology test with labels | A tragedy of incomplete information |
+| Linear scenes with timers | Open exploration within contained spaces |
+| Slideshow of images with text | Living places that react to attention |
+| Identity quiz ("who are you?") | Interpretation game ("what do you believe happened?") |
+
+---
+
+## 5. THE ARCHIVIST
+
+### Who They Are
+
+The Archivist is not a narrator. Not a guide. Not a judge.
+
+They are a **parallel investigator** — studying the same evidence as you, reaching their own conclusions. Sometimes different from yours.
+
+### What They Do
+
+- They're already in the space when you arrive (digging, measuring, reading)
+- They don't acknowledge you immediately
+- They react subtly to what you inspect (a head tilt, a crossed-out note, a step back)
+- They never explain. They observe and record.
+- Their confidence evolves based on what YOU do
+
+### Visual Identity
+
+- Not fully rendered. Silhouette with presence.
+- Posture-based, not face-based.
+- Painterly world, abstract character. This contrast is intentional.
+- They are "a thought trying to become a body."
+
+### Progression Across Locations
+
+| Location 1 | Location 2 | Location 3 | Location 4+ |
+|------------|------------|------------|-------------|
+| Back turned. Working. | Closer. Notices you. | Mirrors your posture. Crosses things out. | Faces you. Speaks. Uncertain. |
+| "Something is watching me." | "It's studying what I do." | "It's changing because of me." | "It doesn't know either." |
+
+### Confidence System (Invisible)
+
+The Archivist has **interpretive confidence** — not about the player, about their own understanding:
+
+- **High confidence:** Smooth movements, decisive writing, clear posture
+- **Low confidence:** Hesitation, crossed-out notes, averted gaze, trembling hand
+
+This is driven by the **resolver** (see Section 9). The player never sees a number.
+
+---
+
+## 6. THE LOCATIONS (ARC 1)
+
+### Primary Arc: Three Locations
+
+| # | Location | Feeling | Core Question | Objects/Evidence |
+|---|----------|---------|---------------|-----------------|
+| 1 | **The Greenhouse** | Warm, damp, overgrown, preserved. Like something cared for too long. | "What happened to the person who left these?" | Cassette tape, train ticket, photograph, buried box, disturbed soil |
+| 2 | **The Flooded Train Station** | Beautiful, abandoned, impossible. Like departure became permanent. | "Did they leave — or were they left behind?" | Timetables, a bag, echoes, water damage, measurement marks |
+| 3 | **The Empty Apartment** | Intimate, uncomfortable. Like somebody left five minutes ago — though they left years ago. | "Who decided this was over?" | Half-packed boxes, one mug, an unsent letter, a key on the counter |
+
+### Expansion (Phase 2+)
+
+| # | Location | Feeling | Core Question |
+|---|----------|---------|---------------|
+| 4 | **The Observatory** | Vast, silent, mathematical. Like trying to measure something immeasurable. | "When did they know?" |
+| 5 | **The Museum Archive** | Ordered, clinical, wrong. Like memory organized by someone who wasn't there. | "Whose version is this?" |
+| 6+ | **TBD** | Grows from the story | Grows from the questions |
+
+---
+
+## 7. SCENE DESIGN (HOW A LOCATION WORKS)
+
+### Every Location Contains:
+
+- **3-5 inspectable objects** — each reveals a fragment of a story
+- **The Archivist** — working in the background, doing their own investigation
+- **Environmental details** — things you can look at but not interact with (rain, a light, a shadow)
+- **One threshold moment** — after enough inspection, a question unlocks
+- **One decision** — not "which are you?" but "what do you believe?"
+
+### Investigation Rules:
+
+1. **No forced order** — player explores freely
+2. **Objects contradict each other** — the tape says one thing, the photo suggests another
+3. **No object is "wrong"** — all are true, all are incomplete
+4. **The Archivist is a secondary witness** — they react to what you find, but don't explain it
+5. **The decision doesn't appear until you've investigated enough** — minimum 2-3 objects inspected
+
+---
+
+## 8. INTERACTION DESIGN
+
+### How the Player Moves
+
+**Point-and-click within contained spaces:**
+- Fixed camera frame (one wide painting per location)
+- Player clicks to inspect objects (hover → highlight → click → inspect)
+- Objects react to proximity/hover (glow, shift, breathe)
+- No character avatar necessary — the player IS the camera/cursor
+- The Archivist notices where your attention goes
+
+### Inspection Types
+
+| Type | Example | What Player Gets |
+|------|---------|-----------------|
+| **Listen** | Cassette tape | Audio fragment — a voice, a sentence |
+| **Read** | Train ticket, letter | Text — specific details, dates, names |
+| **Observe** | Photograph, scratched face | Visual — zoom in, notice detail |
+| **Touch** | Box, mug, key | Haptic feedback — temperature, texture described |
+| **Watch** | The Archivist working | Behavior — what they cross out, what they linger on |
+
+### Decision Design
+
+Decisions are NOT:
+- "Which personality type are you?"
+- "[1] Curiosity [2] Compassion [3] Stability"
+
+Decisions ARE:
+- "Which object do you believe tells the most truthful version?"
+- "What do you think happened here?"
+- "Who do you think left first?"
+
+The player commits to an **interpretation**, not an identity.
+
+---
+
+## 9. SYSTEMS (INVISIBLE TO PLAYER)
+
+### Psyche System (Still Running)
+
+The three lenses still operate — but the player NEVER sees them:
+
+| Lens | Triggered By | Example |
+|------|-------------|---------|
+| **Inquiry** | Inspecting everything, clicking the Archivist, studying contradictions | Player who examines all evidence before deciding |
+| **Tenderness** | Lingering on emotional objects, touching things gently, choosing "care" interpretations | Player who picks the photograph, stays with the mug |
+| **Stillness** | Waiting, observing without clicking, choosing "acceptance" interpretations | Player who watches the Archivist, leaves things untouched |
+
+### Identity Resolver
+
+Still the single source of truth. Resolves psyche state + memory + day + evidence gathered into a unified state that drives:
+- Archivist confidence
+- Which details are available in next location
+- How the ending manifests
+
+### Identity Memory
+
+Records everything:
+- What the player inspected (and in what order)
+- What they ignored
+- How long they lingered
+- What they decided
+- What the Archivist's confidence was at that moment
+
+### Evidence System (NEW)
+
+Tracks what the player has found:
+```
+evidence = {
+    "greenhouse": {
+        "tape_inspected": true,
+        "tape_content": "If you're hearing this, the train has already left.",
+        "ticket_inspected": true,
+        "photo_inspected": false,
+        "box_inspected": true,
+        "dirt_inspected": false,
+        "archivist_watched": true,
+        "decision": "tape"
+    }
+}
+```
+
+This drives what's available in future locations.
+
+---
+
+## 10. ART DIRECTION
+
+### Style: "Painted 2.5D Minimal Realism"
+
+| Principle | Meaning |
+|-----------|---------|
+| **Painted** | Textured, atmospheric, hand-crafted feeling. Not flat, not pixel. |
+| **2.5D** | Layered depth with parallax. Foreground/midground/background at different speeds. |
+| **Minimal** | Not cluttered. Deliberate emptiness. Space to breathe. Objects that matter stand out because nothing else competes. |
+| **Realism** | Grounded in real places (greenhouse, station, apartment). Not fantasy. Not abstract. |
+
+### Emotional Rules for Art
+
+| Location | Must Feel Like |
+|----------|---------------|
+| Greenhouse | "Abandoned place still breathing" |
+| Train Station | "Departure became permanent" |
+| Apartment | "Someone left five minutes ago — but years ago" |
+
+### Key Visual Principles
+
+1. **Places feel real** — not fantasy realms, not dream dimensions
+2. **Places feel slightly wrong** — not horror, just wrong enough, like memory
+3. **Objects matter** — few objects, each clearly readable, each emotionally charged
+4. **The Archivist remains visually separate** — world is detailed, Archivist is not
+5. **Empty space is storytelling** — what's missing matters as much as what's there
+
+### Production Pipeline
+
+1. AI-generate base images (Adobe Firefly / Leonardo)
+2. Refine in Krita/Canva — painterly touch-ups
+3. Split into parallax layers (far, mid, near, foreground)
+4. Import into Godot as layered sprites
+5. Add particles (rain, dust, fog) + 2D lighting
+6. Place interactive objects as Area2D nodes
+
+---
+
+## 11. AUDIO DESIGN
+
+### Layers
+
+| Layer | Purpose | Example |
+|-------|---------|---------|
+| **Ambient drone** | Emotional foundation per location | Greenhouse: warm hum + rain. Station: hollow echo + dripping. |
+| **Environmental SFX** | Space feels alive | Rain on glass, wind through cracks, water dripping |
+| **Interaction SFX** | Feedback for player actions | Click sound on inspect, tape hiss on play, paper rustle |
+| **Archivist sounds** | Their presence | Pen scratching, page turning, breathing shift |
+| **Music** | Sparse. Only at key moments. | A single note held during decisions. Silence during exploration. |
+
+### Audio Rules
+
+- **Exploration = ambient only.** No music pushing emotion.
+- **Decision moments = near silence.** The weight comes from absence.
+- **The Archivist's sounds are always slightly out of sync** — like they exist in adjacent time.
+- **Audio dips on selection** — hum drops for 0.5s when player commits.
+
+---
+
+## 12. NARRATIVE PHILOSOPHY
+
+### Core Rules
+
+1. **Never label choices** — no "(Curiosity)" or "(Compassion)" visible to player
+2. **Never resolve contradictions** — the game doesn't tell you who's right
+3. **Every object is true** — all evidence is honest, all evidence is incomplete
+4. **The player's interpretation IS the story** — there is no "correct" reading
+5. **Playing again shows a different shape of the same loss** — not a "better" ending
+6. **The Archivist is also incomplete** — they don't have the answer either
+7. **Text is not UI** — it's memory leaking into the space
+8. **Silence is gameplay** — lingering, waiting, not-clicking are meaningful actions
+
+### What the Player Should Feel After Finishing
+
+> "I did my best. And it still wasn't enough.
+> And neither was any other option."
+
+Not tragedy. Not sentimentality. **Recognition.**
+
+The same feeling as finishing Outer Wilds.
+
+---
+
+## 13. TECHNICAL ARCHITECTURE
+
+### Godot Scene Structure (Per Location)
+
+```
+LocationScene (Node2D)
+├── Background (Sprite2D / ParallaxBackground)
+├── AtmosphereFX (GPUParticles2D)
+├── AmbientLight (DirectionalLight2D)
+├── Archivist (Node2D)
+│   ├── Sprite (Sprite2D)
+│   └── PoseController (Node)
+├── Inspectables (Node2D)
+│   ├── Object1 (Area2D + Sprite2D + CollisionShape2D)
+│   ├── Object2 (Area2D + Sprite2D + CollisionShape2D)
+│   └── Object3 (Area2D + Sprite2D + CollisionShape2D)
+├── UI (CanvasLayer)
+│   ├── InspectionPanel (for close-up text/audio)
+│   ├── InteractionText (Label)
+│   └── Fade (ColorRect)
+├── Audio (Node)
+│   ├── AmbientLoop (AudioStreamPlayer)
+│   ├── EnvironmentSFX (AudioStreamPlayer)
+│   └── InteractionSFX (AudioStreamPlayer)
+└── SceneController.gd
+```
+
+### Scene Manager (Global)
+
+```
+Main (Node)
+├── SceneManager.gd (loads/unloads location scenes)
+├── GameState.gd (autoload — evidence, psyche, memory)
+├── ArchivistState.gd (autoload — confidence, observations)
+└── AudioManager.gd (autoload — cross-scene ambient)
+```
+
+### Core Systems (Keep from Previous)
+
+- `psyche_system.gd` — lens tracking (invisible)
+- `voice.gd` — resource for lenses
+- `identity_memory.gd` — records all player actions
+- `identity_resolver.gd` — single source of truth
+- `typewriter.gd` — text reveal for inspection text
+
+### New Systems Needed
+
+- `evidence_tracker.gd` — what the player has found
+- `inspection_system.gd` — handles object close-ups
+- `scene_manager.gd` — location transitions
+- `archivist_behavior.gd` — pose/reaction state machine
+
+---
+
+## 14. SCOPE & TIMELINE
+
+### Phase 1: Vertical Slice (The Greenhouse)
+
+**Goal:** One complete, playable, beautiful location.
+
+- Final art direction proven
+- Investigation loop working
+- Archivist reacting
+- Audio layer complete
+- Player can explore, inspect, decide
+- Scene transitions to "end of demo" / next location
+
+**This is the ONLY thing that matters until it's done.**
+
+### Phase 2: Complete Arc 1 (Three Locations)
+
+- Flooded Train Station built
+- Empty Apartment built
+- Evidence carries forward between locations
+- Archivist progression visible across three locations
+- Ending sequence implemented
+
+### Phase 3: Expansion
+
+- Additional locations (Observatory, Museum, etc.)
+- Multiple arcs / replayability
+- Deeper evidence system
+- Sound design polish
+- Community testing
+
+---
+
+## 15. DESIGN PILLARS (Ranked by Priority)
+
+1. **The player investigates** — they explore, they gather, they piece together
+2. **Nothing is explained** — the system never reveals itself
+3. **The Archivist is alive** — a parallel investigator, not a narrator
+4. **Places feel remembered** — real locations, slightly wrong, like memory
+5. **Incompleteness is the point** — every truth is partial, every choice costs something
+6. **Silence is gameplay** — what you don't click matters as much as what you do
+
+---
+
+## 16. SUCCESS CRITERIA
+
+The game is working when:
+
+- A player explores the Greenhouse for 5+ minutes without being told to
+- A player pauses before making a decision (not because they're confused — because they're uncertain)
+- A player notices the Archivist reacting and feels watched
+- A player finishes and says: "I want to play again but differently"
+- A player realizes on the second playthrough that the "wrong" choice was also "right"
+
+---
+
+## 17. THE PROMISE
+
+This game is not about who you are.
+
+It's about how you build truth from fragments.
+
+And the quiet devastation of discovering that every fragment was honest —
+
+and still not enough.
+
+---
+
+*BECOMING — GDD v3.0*
+*Last updated: June 17, 2026*
+*Status: Vertical Slice in development (Greenhouse)*
