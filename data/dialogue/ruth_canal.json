@@ -1,0 +1,27 @@
+{
+	"default": [
+		{"speaker": "Ruth", "text": "..."},
+		{"speaker": "Ruth", "text": "You can sit. If you like."},
+		{"speaker": "Ruth", "text": "I come here most days. When the weather allows."},
+		{"speaker": "Ruth", "text": "My son used to feed the ducks here. When he was small."},
+		{"speaker": "Ruth", "text": "He's not small anymore. He's not here anymore."},
+		{"speaker": "Ruth", "text": "..."},
+		{"speaker": "Ruth", "text": "That's not a sad thing. Not exactly. He's living. Somewhere else."},
+		{"speaker": "Ruth", "text": "I chose to let him. I choose it again every day I don't follow."},
+		{"speaker": "Ruth", "text": "Some days that feels like love. Some days it just feels like sitting by a canal."}
+	],
+	"existentialism": [
+		{"speaker": "Ruth", "text": "..."},
+		{"speaker": "Ruth", "text": "Sit."},
+		{"speaker": "Ruth", "text": "You don't need to say anything. Neither do I."},
+		{"speaker": "Ruth", "text": "..."},
+		{"speaker": "Ruth", "text": "He left three years ago. University, then work. Normal things."},
+		{"speaker": "Ruth", "text": "Everyone said: you must be proud. And I am. I am."},
+		{"speaker": "Ruth", "text": "But no one asked what it costs. To choose someone else's freedom over your own comfort."},
+		{"speaker": "Ruth", "text": "Every day I could call. Could ask him to come back. Could make him feel guilty enough."},
+		{"speaker": "Ruth", "text": "I don't. That's the choice. Every single day, that's the choice."},
+		{"speaker": "Ruth", "text": "..."},
+		{"speaker": "Ruth", "text": "The canal doesn't care. That's why I like it here."},
+		{"speaker": "Ruth", "text": "It just moves. Slowly. Wherever it's going."}
+	]
+}

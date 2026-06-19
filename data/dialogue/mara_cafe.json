@@ -1,0 +1,37 @@
+{
+	"default": [
+		{"speaker": "Mara", "text": "Morning. Sit anywhere you like."},
+		{"speaker": "Mara", "text": "Coffee's on. Same as always."},
+		{"speaker": "Mara", "text": "..."},
+		{"speaker": "Mara", "text": "Quiet today. But then, it usually is."}
+	],
+	"vairagya": [
+		{"speaker": "Mara", "text": "Morning."},
+		{"speaker": "Mara", "text": "You know, I used to count the people who came in. Kept a little notebook."},
+		{"speaker": "Mara", "text": "Stopped a few years back. Not sure why."},
+		{"speaker": "Mara", "text": "Maybe counting things doesn't make them more real. Just more... counted."},
+		{"speaker": "Mara", "text": "Anyway. Coffee's there."}
+	],
+	"nihilism": [
+		{"speaker": "Mara", "text": "You want the menu? It hasn't changed in four years."},
+		{"speaker": "Mara", "text": "I print new ones sometimes. Same items. Different paper."},
+		{"speaker": "Mara", "text": "The council sent someone about the hygiene rating. Said I should 'refresh the branding.'"},
+		{"speaker": "Mara", "text": "I asked him what that meant. He couldn't say. Not really."},
+		{"speaker": "Mara", "text": "So. Coffee?"}
+	],
+	"absurdism": [
+		{"speaker": "Mara", "text": "Ha — you're back. Good."},
+		{"speaker": "Mara", "text": "I burned the first pot today. Completely forgot it was on."},
+		{"speaker": "Mara", "text": "Stood there watching it smoke and thought: well. That's a kind of cooking."},
+		{"speaker": "Mara", "text": "Made a fresh one. Tastes better when the first one fails."},
+		{"speaker": "Mara", "text": "Everything does, I think."}
+	],
+	"existentialism": [
+		{"speaker": "Mara", "text": "Sit. Please."},
+		{"speaker": "Mara", "text": "...I almost didn't open today. Woke up and thought: why."},
+		{"speaker": "Mara", "text": "Then I thought: because someone might need it. Might need the door to be open."},
+		{"speaker": "Mara", "text": "And if it's closed — if I don't — then they walk past and the day is different."},
+		{"speaker": "Mara", "text": "So I opened it. Like always."},
+		{"speaker": "Mara", "text": "That's not nothing. Is it."}
+	]
+}

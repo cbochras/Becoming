@@ -1,0 +1,364 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/interaction/readable.gd" id="2_readable"]
+[ext_resource type="Script" path="res://scripts/interaction/bench.gd" id="3_bench"]
+[ext_resource type="Script" path="res://scripts/interaction/scene_exit.gd" id="4_exit"]
+[ext_resource type="Script" path="res://scripts/systems/time_of_day_lighting.gd" id="5_tod"]
+[ext_resource type="Script" path="res://scripts/dialogue/dialogue_system.gd" id="6_dialogue"]
+[ext_resource type="Script" path="res://scenes/locations/the_square.gd" id="7_scene"]
+[ext_resource type="Script" path="res://scripts/systems/duration_tracker.gd" id="8_duration"]
+
+[sub_resource type="RectangleShape2D" id="player_body"]
+size = Vector2(16, 8)
+
+[sub_resource type="CircleShape2D" id="interact_radius"]
+radius = 50.0
+
+[sub_resource type="CircleShape2D" id="obj_radius"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="obj_small"]
+radius = 25.0
+
+[sub_resource type="RectangleShape2D" id="exit_rect"]
+size = Vector2(40, 120)
+
+[sub_resource type="CircleShape2D" id="door_radius"]
+radius = 20.0
+
+[sub_resource type="RectangleShape2D" id="bound_h"]
+size = Vector2(1920, 20)
+
+[sub_resource type="RectangleShape2D" id="bound_v"]
+size = Vector2(20, 700)
+
+[node name="TheSquare" type="Node2D"]
+
+[node name="SceneLogic" type="Node" parent="."]
+script = ExtResource("7_scene")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Sky" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1920.0
+offset_bottom = 400.0
+color = Color(0.6, 0.62, 0.68, 1)
+
+[node name="Ground" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 550.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.4, 0.38, 0.35, 1)
+
+[node name="LibraryBuilding" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 250.0
+offset_right = 400.0
+offset_bottom = 550.0
+color = Color(0.55, 0.52, 0.48, 1)
+
+[node name="LibraryColumns1" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 80.0
+offset_top = 300.0
+offset_right = 92.0
+offset_bottom = 550.0
+color = Color(0.62, 0.6, 0.55, 1)
+
+[node name="LibraryColumns2" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 160.0
+offset_top = 300.0
+offset_right = 172.0
+offset_bottom = 550.0
+color = Color(0.62, 0.6, 0.55, 1)
+
+[node name="LibraryColumns3" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 240.0
+offset_top = 300.0
+offset_right = 252.0
+offset_bottom = 550.0
+color = Color(0.62, 0.6, 0.55, 1)
+
+[node name="LibrarySteps" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 50.0
+offset_top = 540.0
+offset_right = 350.0
+offset_bottom = 560.0
+color = Color(0.5, 0.48, 0.44, 1)
+
+[node name="BuildingRight" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1500.0
+offset_top = 280.0
+offset_right = 1920.0
+offset_bottom = 550.0
+color = Color(0.45, 0.4, 0.35, 1)
+
+[node name="BuildingBack" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 400.0
+offset_top = 320.0
+offset_right = 1500.0
+offset_bottom = 400.0
+color = Color(0.42, 0.4, 0.37, 0.5)
+
+[node name="Memorial" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 920.0
+offset_top = 420.0
+offset_right = 1000.0
+offset_bottom = 550.0
+color = Color(0.55, 0.53, 0.5, 1)
+
+[node name="MemorialTop" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 940.0
+offset_top = 380.0
+offset_right = 980.0
+offset_bottom = 420.0
+color = Color(0.58, 0.55, 0.52, 1)
+
+[node name="Tree1" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 600.0
+offset_top = 380.0
+offset_right = 640.0
+offset_bottom = 430.0
+color = Color(0.3, 0.45, 0.3, 0.8)
+
+[node name="Tree1Trunk" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 617.0
+offset_top = 430.0
+offset_right = 623.0
+offset_bottom = 550.0
+color = Color(0.35, 0.25, 0.2, 1)
+
+[node name="Tree2" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1300.0
+offset_top = 370.0
+offset_right = 1340.0
+offset_bottom = 420.0
+color = Color(0.28, 0.42, 0.28, 0.8)
+
+[node name="Tree2Trunk" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1317.0
+offset_top = 420.0
+offset_right = 1323.0
+offset_bottom = 550.0
+color = Color(0.35, 0.25, 0.2, 1)
+
+[node name="BenchVisual" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 700.0
+offset_top = 565.0
+offset_right = 770.0
+offset_bottom = 575.0
+color = Color(0.45, 0.3, 0.15, 1)
+
+[node name="ScarfVisual" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 755.0
+offset_top = 558.0
+offset_right = 770.0
+offset_bottom = 565.0
+color = Color(0.7, 0.3, 0.3, 0.8)
+
+[node name="BirdVisual" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1100.0
+offset_top = 570.0
+offset_right = 1108.0
+offset_bottom = 576.0
+color = Color(0.35, 0.3, 0.28, 1)
+
+[node name="Lighting" type="CanvasModulate" parent="."]
+script = ExtResource("5_tod")
+color = Color(1.0, 0.85, 0.6, 1)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="Memorial" type="Node2D" parent="Interactables"]
+position = Vector2(960, 620)
+script = ExtResource("2_readable")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Memorial"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Memorial/Area2D"]
+shape = SubResource("obj_radius")
+
+[node name="Scarf" type="Node2D" parent="Interactables"]
+position = Vector2(750, 620)
+script = ExtResource("2_readable")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Scarf"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Scarf/Area2D"]
+shape = SubResource("obj_small")
+
+[node name="Bird" type="Node2D" parent="Interactables"]
+position = Vector2(1100, 620)
+script = ExtResource("2_readable")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Bird"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Bird/Area2D"]
+shape = SubResource("obj_small")
+
+[node name="Bench" type="Node2D" parent="Interactables"]
+position = Vector2(735, 620)
+script = ExtResource("3_bench")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Bench"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Bench/Area2D"]
+shape = SubResource("obj_radius")
+
+[node name="DurationTracker" type="Node" parent="Interactables/Bench"]
+script = ExtResource("8_duration")
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="ToHighStreet" type="Area2D" parent="Exits"]
+position = Vector2(30, 620)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("4_exit")
+target_scene = "res://scenes/locations/high_street.tscn"
+target_entry_point = "from_square"
+
+[node name="Col" type="CollisionShape2D" parent="Exits/ToHighStreet"]
+shape = SubResource("exit_rect")
+
+[node name="ToCanal" type="Area2D" parent="Exits"]
+position = Vector2(1890, 620)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("4_exit")
+target_scene = "res://scenes/locations/canal_path.tscn"
+target_entry_point = "from_square"
+
+[node name="Col" type="CollisionShape2D" parent="Exits/ToCanal"]
+shape = SubResource("exit_rect")
+
+[node name="ToLibrary" type="Area2D" parent="Exits"]
+position = Vector2(200, 595)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("4_exit")
+target_scene = "res://scenes/locations/library.tscn"
+target_entry_point = "from_square"
+
+[node name="Col" type="CollisionShape2D" parent="Exits/ToLibrary"]
+shape = SubResource("door_radius")
+
+[node name="EntryPoints" type="Node2D" parent="."]
+
+[node name="from_high_street" type="Marker2D" parent="EntryPoints"]
+position = Vector2(100, 620)
+
+[node name="from_canal" type="Marker2D" parent="EntryPoints"]
+position = Vector2(1820, 620)
+
+[node name="from_library" type="Marker2D" parent="EntryPoints"]
+position = Vector2(250, 620)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(100, 620)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="Sprite" type="Node2D" parent="Player"]
+position = Vector2(0, -16)
+
+[node name="Body" type="ColorRect" parent="Player/Sprite"]
+mouse_filter = 2
+offset_left = -6.0
+offset_top = -20.0
+offset_right = 6.0
+offset_bottom = 0.0
+color = Color(0.85, 0.78, 0.7, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("player_body")
+
+[node name="InteractionArea" type="Area2D" parent="Player"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Player/InteractionArea"]
+shape = SubResource("interact_radius")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Walls"]
+position = Vector2(960, 590)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Top"]
+shape = SubResource("bound_h")
+
+[node name="Bottom" type="StaticBody2D" parent="Walls"]
+position = Vector2(960, 660)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Bottom"]
+shape = SubResource("bound_h")
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+position = Vector2(10, 620)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Left"]
+shape = SubResource("bound_v")
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+position = Vector2(1910, 620)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Right"]
+shape = SubResource("bound_v")
+
+[node name="DialogueUI" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("6_dialogue")
+
+[node name="Panel" type="PanelContainer" parent="DialogueUI"]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -140.0
+offset_right = -200.0
+offset_bottom = -40.0
+
+[node name="SpeakerName" type="Label" parent="DialogueUI/Panel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueUI/Panel"]
+layout_mode = 2
+
+[node name="Text" type="RichTextLabel" parent="DialogueUI/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+fit_content = true

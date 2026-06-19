@@ -1,0 +1,341 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/interaction/readable.gd" id="2_readable"]
+[ext_resource type="Script" path="res://scripts/interaction/bench.gd" id="3_bench"]
+[ext_resource type="Script" path="res://scripts/interaction/scene_exit.gd" id="4_exit"]
+[ext_resource type="Script" path="res://scripts/systems/time_of_day_lighting.gd" id="5_tod"]
+[ext_resource type="Script" path="res://scripts/dialogue/dialogue_system.gd" id="6_dialogue"]
+[ext_resource type="Script" path="res://scenes/locations/bus_depot.gd" id="7_scene"]
+[ext_resource type="Script" path="res://scripts/systems/duration_tracker.gd" id="8_duration"]
+
+[sub_resource type="RectangleShape2D" id="player_body"]
+size = Vector2(16, 8)
+
+[sub_resource type="CircleShape2D" id="interact_radius"]
+radius = 50.0
+
+[sub_resource type="CircleShape2D" id="obj_radius"]
+radius = 40.0
+
+[sub_resource type="CircleShape2D" id="obj_large"]
+radius = 90.0
+
+[sub_resource type="RectangleShape2D" id="exit_rect"]
+size = Vector2(40, 120)
+
+[sub_resource type="RectangleShape2D" id="bound_h"]
+size = Vector2(1920, 20)
+
+[sub_resource type="RectangleShape2D" id="bound_v"]
+size = Vector2(20, 700)
+
+[node name="BusDepot" type="Node2D"]
+
+[node name="SceneLogic" type="Node" parent="."]
+script = ExtResource("7_scene")
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Floor" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 600.0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.25, 0.23, 0.22, 1)
+
+[node name="BackWall" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1920.0
+offset_bottom = 350.0
+color = Color(0.35, 0.33, 0.3, 1)
+
+[node name="Ceiling" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 1920.0
+offset_bottom = 80.0
+color = Color(0.18, 0.17, 0.16, 1)
+
+[node name="LeftWall" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 100.0
+offset_bottom = 1080.0
+color = Color(0.28, 0.26, 0.24, 1)
+
+[node name="RightWall" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1820.0
+offset_top = 0.0
+offset_right = 1920.0
+offset_bottom = 500.0
+color = Color(0.28, 0.26, 0.24, 1)
+
+[node name="Window1" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 300.0
+offset_top = 100.0
+offset_right = 500.0
+offset_bottom = 300.0
+color = Color(0.6, 0.62, 0.65, 0.7)
+
+[node name="Window2" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 700.0
+offset_top = 100.0
+offset_right = 900.0
+offset_bottom = 300.0
+color = Color(0.6, 0.62, 0.65, 0.7)
+
+[node name="Window3" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1100.0
+offset_top = 100.0
+offset_right = 1300.0
+offset_bottom = 300.0
+color = Color(0.6, 0.62, 0.65, 0.7)
+
+[node name="BayLine1" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 200.0
+offset_top = 650.0
+offset_right = 204.0
+offset_bottom = 1000.0
+color = Color(0.5, 0.45, 0.2, 0.5)
+
+[node name="BayLine2" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 500.0
+offset_top = 650.0
+offset_right = 504.0
+offset_bottom = 1000.0
+color = Color(0.5, 0.45, 0.2, 0.5)
+
+[node name="BayLine3" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 800.0
+offset_top = 650.0
+offset_right = 804.0
+offset_bottom = 1000.0
+color = Color(0.5, 0.45, 0.2, 0.5)
+
+[node name="Rope" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1000.0
+offset_top = 620.0
+offset_right = 1600.0
+offset_bottom = 624.0
+color = Color(0.6, 0.2, 0.15, 0.7)
+
+[node name="Bus" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 320.0
+offset_top = 680.0
+offset_right = 480.0
+offset_bottom = 980.0
+color = Color(0.2, 0.35, 0.3, 1)
+
+[node name="Pillar1" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 600.0
+offset_top = 300.0
+offset_right = 620.0
+offset_bottom = 600.0
+color = Color(0.3, 0.28, 0.25, 1)
+
+[node name="Pillar2" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 1200.0
+offset_top = 300.0
+offset_right = 1220.0
+offset_bottom = 600.0
+color = Color(0.3, 0.28, 0.25, 1)
+
+[node name="BenchVisual" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 130.0
+offset_top = 595.0
+offset_right = 190.0
+offset_bottom = 610.0
+color = Color(0.45, 0.3, 0.15, 1)
+
+[node name="TimetableVisual" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 135.0
+offset_top = 400.0
+offset_right = 165.0
+offset_bottom = 460.0
+color = Color(0.85, 0.82, 0.7, 1)
+
+[node name="Pigeon1" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 894.0
+offset_top = 196.0
+offset_right = 906.0
+offset_bottom = 204.0
+color = Color(0.5, 0.5, 0.52, 1)
+
+[node name="Pigeon2" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 915.0
+offset_top = 193.0
+offset_right = 927.0
+offset_bottom = 201.0
+color = Color(0.48, 0.47, 0.5, 1)
+
+[node name="Pigeon3" type="ColorRect" parent="Background"]
+mouse_filter = 2
+offset_left = 875.0
+offset_top = 200.0
+offset_right = 887.0
+offset_bottom = 208.0
+color = Color(0.52, 0.5, 0.48, 1)
+
+[node name="Lighting" type="CanvasModulate" parent="."]
+script = ExtResource("5_tod")
+color = Color(0.78, 0.82, 0.88, 1)
+
+[node name="Interactables" type="Node2D" parent="."]
+
+[node name="Bench" type="Node2D" parent="Interactables"]
+position = Vector2(160, 620)
+script = ExtResource("3_bench")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Bench"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Bench/Area2D"]
+shape = SubResource("obj_radius")
+
+[node name="DurationTracker" type="Node" parent="Interactables/Bench"]
+script = ExtResource("8_duration")
+
+[node name="Timetable" type="Node2D" parent="Interactables"]
+position = Vector2(150, 620)
+script = ExtResource("2_readable")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Timetable"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Timetable/Area2D"]
+shape = SubResource("obj_radius")
+
+[node name="Pigeons" type="Node2D" parent="Interactables"]
+position = Vector2(900, 620)
+script = ExtResource("2_readable")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Pigeons"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Pigeons/Area2D"]
+shape = SubResource("obj_large")
+
+[node name="Exits" type="Node2D" parent="."]
+
+[node name="ToHighStreet" type="Area2D" parent="Exits"]
+position = Vector2(1880, 620)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("4_exit")
+target_scene = "res://scenes/locations/high_street.tscn"
+target_entry_point = "from_depot"
+
+[node name="Col" type="CollisionShape2D" parent="Exits/ToHighStreet"]
+shape = SubResource("exit_rect")
+
+[node name="EntryPoints" type="Node2D" parent="."]
+
+[node name="arrival" type="Marker2D" parent="EntryPoints"]
+position = Vector2(960, 620)
+
+[node name="from_street" type="Marker2D" parent="EntryPoints"]
+position = Vector2(1800, 620)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(960, 620)
+collision_layer = 2
+collision_mask = 1
+script = ExtResource("1_player")
+
+[node name="Sprite" type="Node2D" parent="Player"]
+position = Vector2(0, -16)
+
+[node name="Body" type="ColorRect" parent="Player/Sprite"]
+mouse_filter = 2
+offset_left = -6.0
+offset_top = -20.0
+offset_right = 6.0
+offset_bottom = 0.0
+color = Color(0.85, 0.78, 0.7, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("player_body")
+
+[node name="InteractionArea" type="Area2D" parent="Player"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Player/InteractionArea"]
+shape = SubResource("interact_radius")
+
+[node name="Walls" type="Node2D" parent="."]
+
+[node name="Top" type="StaticBody2D" parent="Walls"]
+position = Vector2(960, 590)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Top"]
+shape = SubResource("bound_h")
+
+[node name="Bottom" type="StaticBody2D" parent="Walls"]
+position = Vector2(960, 660)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Bottom"]
+shape = SubResource("bound_h")
+
+[node name="Left" type="StaticBody2D" parent="Walls"]
+position = Vector2(100, 620)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Left"]
+shape = SubResource("bound_v")
+
+[node name="Right" type="StaticBody2D" parent="Walls"]
+position = Vector2(1910, 620)
+
+[node name="Col" type="CollisionShape2D" parent="Walls/Right"]
+shape = SubResource("bound_v")
+
+[node name="DialogueUI" type="CanvasLayer" parent="."]
+layer = 10
+script = ExtResource("6_dialogue")
+
+[node name="Panel" type="PanelContainer" parent="DialogueUI"]
+visible = false
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 200.0
+offset_top = -140.0
+offset_right = -200.0
+offset_bottom = -40.0
+
+[node name="SpeakerName" type="Label" parent="DialogueUI/Panel"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="DialogueUI/Panel"]
+layout_mode = 2
+
+[node name="Text" type="RichTextLabel" parent="DialogueUI/Panel/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+fit_content = true
