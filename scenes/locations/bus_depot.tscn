@@ -1,22 +1,24 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://scripts/player/player_controller.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/interaction/readable.gd" id="2_readable"]
 [ext_resource type="Script" path="res://scripts/interaction/bench.gd" id="3_bench"]
+[ext_resource type="Script" path="res://scripts/interaction/eli.gd" id="11_eli"]
 [ext_resource type="Script" path="res://scripts/interaction/scene_exit.gd" id="4_exit"]
 [ext_resource type="Script" path="res://scripts/systems/time_of_day_lighting.gd" id="5_tod"]
 [ext_resource type="Script" path="res://scripts/dialogue/dialogue_system.gd" id="6_dialogue"]
 [ext_resource type="Script" path="res://scenes/locations/bus_depot.gd" id="7_scene"]
 [ext_resource type="Script" path="res://scripts/systems/duration_tracker.gd" id="8_duration"]
+[ext_resource type="Script" path="res://scripts/systems/bus_departure.gd" id="12_bus"]
 
 [sub_resource type="RectangleShape2D" id="player_body"]
 size = Vector2(16, 8)
 
 [sub_resource type="CircleShape2D" id="interact_radius"]
-radius = 50.0
+radius = 30.0
 
 [sub_resource type="CircleShape2D" id="obj_radius"]
-radius = 40.0
+radius = 25.0
 
 [sub_resource type="CircleShape2D" id="obj_large"]
 radius = 90.0
@@ -240,7 +242,46 @@ collision_mask = 4
 [node name="Col" type="CollisionShape2D" parent="Interactables/Pigeons/Area2D"]
 shape = SubResource("obj_large")
 
+[node name="Eli" type="Node2D" parent="Interactables"]
+position = Vector2(220, 620)
+script = ExtResource("11_eli")
+
+[node name="Visual" type="ColorRect" parent="Interactables/Eli"]
+mouse_filter = 2
+offset_left = -5.0
+offset_top = -45.0
+offset_right = 5.0
+offset_bottom = -35.0
+color = Color(0.6, 0.55, 0.5, 1)
+
+[node name="ProximityArea" type="Area2D" parent="Interactables/Eli"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Eli/ProximityArea"]
+shape = SubResource("obj_radius")
+
+[node name="Ticket" type="Node2D" parent="Interactables"]
+position = Vector2(960, 620)
+script = ExtResource("2_readable")
+
+[node name="Area2D" type="Area2D" parent="Interactables/Ticket"]
+collision_layer = 4
+collision_mask = 4
+
+[node name="Col" type="CollisionShape2D" parent="Interactables/Ticket/Area2D"]
+shape = SubResource("obj_radius")
+
 [node name="Exits" type="Node2D" parent="."]
+
+[node name="BusBoarding" type="Area2D" parent="Exits"]
+position = Vector2(400, 620)
+collision_layer = 1
+collision_mask = 2
+script = ExtResource("12_bus")
+
+[node name="Col" type="CollisionShape2D" parent="Exits/BusBoarding"]
+shape = SubResource("obj_radius")
 
 [node name="ToHighStreet" type="Area2D" parent="Exits"]
 position = Vector2(1880, 620)
@@ -256,13 +297,13 @@ shape = SubResource("exit_rect")
 [node name="EntryPoints" type="Node2D" parent="."]
 
 [node name="arrival" type="Marker2D" parent="EntryPoints"]
-position = Vector2(960, 620)
+position = Vector2(180, 620)
 
 [node name="from_street" type="Marker2D" parent="EntryPoints"]
 position = Vector2(1800, 620)
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(960, 620)
+position = Vector2(180, 620)
 collision_layer = 2
 collision_mask = 1
 script = ExtResource("1_player")

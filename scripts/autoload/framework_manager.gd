@@ -33,7 +33,7 @@ var world_values := {
 }
 
 # How fast the world catches up to the player (per second)
-const WORLD_LAG_SPEED := 0.001
+const WORLD_LAG_SPEED := 0.05
 
 var _dominant: String = ""
 var _world_dominant: String = ""

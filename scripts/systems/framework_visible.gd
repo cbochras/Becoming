@@ -30,6 +30,10 @@ func _ready() -> void:
 	FrameworkManager.framework_changed.connect(_on_framework_changed)
 
 
+func _process(_delta: float) -> void:
+	_update_visibility()
+
+
 func _on_framework_changed(_dominant: String, _values: Dictionary) -> void:
 	_update_visibility()
 
@@ -44,14 +48,18 @@ func _update_visibility() -> void:
 		# Fully visible
 		_parent.visible = true
 		_parent.modulate.a = 1.0
+		_parent.process_mode = Node.PROCESS_MODE_INHERIT
+		_set_areas_enabled(true)
 		if _is_flicker:
 			FlickerSystem.unregister_flicker_node(_parent)
 			_is_flicker = false
 		_is_visible = true
 
 	elif val >= flicker_threshold:
-		# Flicker range — hidden but registered for rare flicker
+		# Flicker range — hidden but NOT interactable
 		_parent.visible = false
+		_parent.process_mode = Node.PROCESS_MODE_DISABLED
+		_set_areas_enabled(false)
 		if not _is_flicker:
 			FlickerSystem.register_flicker_node(_parent)
 			_is_flicker = true
@@ -60,10 +68,22 @@ func _update_visibility() -> void:
 	else:
 		# Completely hidden — doesn't exist
 		_parent.visible = false
+		_parent.process_mode = Node.PROCESS_MODE_DISABLED
+		_set_areas_enabled(false)
 		if _is_flicker:
 			FlickerSystem.unregister_flicker_node(_parent)
 			_is_flicker = false
 		_is_visible = false
+
+
+func _set_areas_enabled(enabled: bool) -> void:
+	for child in _parent.get_children():
+		if child is Area2D:
+			child.monitoring = enabled
+			child.monitorable = enabled
+			for col in child.get_children():
+				if col is CollisionShape2D:
+					col.disabled = not enabled
 
 
 func _exit_tree() -> void:

@@ -8,7 +8,7 @@
 [ext_resource type="Script" path="res://scripts/dialogue/dialogue_system.gd" id="6_dialogue"]
 [ext_resource type="Script" path="res://scenes/locations/canal_path.gd" id="7_scene"]
 [ext_resource type="Script" path="res://scripts/interaction/npc.gd" id="8_npc"]
-[ext_resource type="Script" path="res://scripts/systems/framework_visible.gd" id="9_fv"]
+[ext_resource type="Script" path="res://scripts/systems/framework_gated.gd" id="9_fg"]
 [ext_resource type="Script" path="res://scripts/systems/duration_tracker.gd" id="10_duration"]
 
 [sub_resource type="RectangleShape2D" id="player_body"]
@@ -144,14 +144,6 @@ offset_right = 1630.0
 offset_bottom = 585.0
 color = Color(0.45, 0.3, 0.15, 1)
 
-[node name="RuthFigure" type="ColorRect" parent="Background"]
-mouse_filter = 2
-offset_left = 1575.0
-offset_top = 550.0
-offset_right = 1590.0
-offset_bottom = 575.0
-color = Color(0.4, 0.5, 0.48, 1)
-
 [node name="Weeds1" type="ColorRect" parent="Background"]
 mouse_filter = 2
 offset_left = 300.0
@@ -203,11 +195,20 @@ shape = SubResource("obj_large")
 position = Vector2(1590, 620)
 script = ExtResource("8_npc")
 
-[node name="FrameworkVisible" type="Node" parent="Interactables/Ruth"]
-script = ExtResource("9_fv")
+[node name="Visual" type="ColorRect" parent="Interactables/Ruth"]
+mouse_filter = 2
+offset_left = -7.0
+offset_top = -70.0
+offset_right = 8.0
+offset_bottom = -45.0
+color = Color(0.4, 0.5, 0.48, 1)
+
+[node name="FrameworkGated" type="Node" parent="Interactables/Ruth"]
+script = ExtResource("9_fg")
 required_framework = "existentialism"
-visibility_threshold = 0.5
-flicker_threshold = 0.35
+interaction_threshold = 0.35
+glance_threshold = 0.28
+unavailable_text = "She's looking at the water. She doesn't turn."
 
 [node name="ProximityArea" type="Area2D" parent="Interactables/Ruth"]
 collision_layer = 4

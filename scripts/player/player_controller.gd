@@ -23,6 +23,7 @@ var _nearby_interactable: Node = null
 
 func _ready() -> void:
 	_target_position = global_position
+	add_to_group("player")
 	if _interaction_area:
 		_interaction_area.area_entered.connect(_on_interactable_entered)
 		_interaction_area.area_exited.connect(_on_interactable_exited)

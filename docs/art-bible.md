@@ -5,28 +5,87 @@
 ## 1. Visual Identity
 
 ### One-Line Description
-A painterly, warm, melancholic town that looks like a memory of a real place — slightly softer than reality, slightly more golden, like a photograph processed through longing.
+A painterly, warm, melancholic town rendered as theatrical stage sets — each scene
+a composed frame the player walks ACROSS, not INTO. Like watching a play about a
+place that used to matter more.
 
 ### Core References
-- **NORCO** — Painted backgrounds, rich color, stillness, Southern atmosphere
-- **Kentucky Route Zero** — Theatrical composition, negative space, light as storytelling
-- **Disco Elysium** — Oil-paint texture, imperfection, lived-in detail
-- **Gregory Crewdson photography** — Suburban mundane made uncanny through light and composition
+- **NORCO** — Painted backgrounds, side-view composition, layered depth, rich color
+- **Kentucky Route Zero** — Theatrical flat staging, silhouette characters, negative space
+- **Disco Elysium** — Oil-paint texture, lived-in detail, isometric-but-flat feel
 - **Edward Hopper paintings** — Isolation, golden light, figures in architectural space
+- **Inside (Playdead)** — Silhouette characters against detailed environments, scale
+
+### What This IS
+- 2D side-view compositions (like a theatre stage seen from the audience)
+- Characters walk LEFT to RIGHT across composed frames
+- Painterly but grounded — warm, textured, brushstroke-visible
+- Each scene is wide, showing the full width of the space
+- Clear floor/ground strip for character movement
+- Layered: background (sky/far wall) → midground (architecture) → foreground (objects player interacts with)
 
 ### What This Is NOT
-- Not pixel art
-- Not anime/manga styled
+- Not 3D perspective shots looking "into" a room
 - Not photorealistic
-- Not fantasy/sci-fi aesthetic
-- Not grimdark or post-apocalyptic
-- Not clean/vector/flat design
+- Not pixel art or anime
+- Not fantasy/sci-fi
+- Not first-person or over-the-shoulder
 
 ---
 
-## 2. Color Palette
+## 2. Composition Rules (UPDATED — Most Important Section)
 
-### Primary Palette (The Town's Soul)
+### The Stage Metaphor
+
+Every scene is a **theatre stage viewed from the audience.** The camera never moves.
+The player is an actor walking across the stage. The background is the set.
+
+```
+┌─────────────────────────────────────────────┐
+│          SKY / CEILING (far background)      │
+│─────────────────────────────────────────────│
+│     BACK WALL / BUILDINGS (midground)        │
+│         windows, doors, signs, detail        │
+│─────────────────────────────────────────────│
+│  ═══════ FLOOR STRIP (player walks here) ═══│
+│─────────────────────────────────────────────│
+│      FOREGROUND (optional - bench edge,      │
+│        railing, close objects)               │
+└─────────────────────────────────────────────┘
+```
+
+### Key Composition Rules
+
+1. **Flat, not deep.** Minimal perspective. The back wall is parallel to the camera.
+   Objects don't shrink dramatically with distance. Think paper theatre / diorama.
+
+2. **The floor strip is sacred.** The bottom 20-30% of the frame is where the player
+   walks. It must be clear, uncluttered, and readable as "ground."
+
+3. **Entrances/exits at LEFT and RIGHT edges.** The player enters from one side,
+   exits the other. Doorways, paths, and transitions are at the horizontal edges.
+
+4. **Vertical = visual interest. Horizontal = movement.** Pillars, windows, doors
+   are vertical landmarks. The floor is the horizontal movement plane.
+
+5. **Characters are SMALL.** 10-15% of frame height. The environment dominates.
+   The player is a figure in a space, not a character in a close-up.
+
+6. **Light comes from one direction** (usually the right or above-right). This
+   creates consistent shadow direction across all scenes.
+
+### SD Prompt Formula for Stage-View Scenes
+
+Always include these terms in every scene prompt:
+```
+wide side view, seen from the side like a theatre stage, flat composition
+showing full width of the room, 2D side-scrolling game environment background,
+game background art, wide aspect ratio, no people
+```
+
+---
+
+## 3. Color Palette
 
 ```
 AMBER GOLD      #D4A857  — Evening light, warmth, the "ache" color
@@ -135,10 +194,43 @@ Flicker content (near-threshold objects/characters) should ALWAYS appear in **pe
 - Each character has a **signature shape** and **signature color** for instant recognition at small scale.
 - Faces are suggested, not detailed. Eyes are important. Expression lives in posture more than facial features.
 
-### Character Specs
+### Character Specs — UPDATED
 
-| Character | Signature Shape | Signature Color | Silhouette Key |
-|-----------|----------------|-----------------|----------------|
+Characters are **simple painted silhouettes with minimal detail.** Not fully
+rendered portraits — recognizable shapes with just enough information to read
+as human at 10-15% of frame height.
+
+Think: Kentucky Route Zero, Inside (Playdead), NORCO's smaller characters.
+
+At game resolution, detail is wasted. What matters:
+- **Shape** (posture, proportions, stance)
+- **One signature color** (Mara = warm ochre apron, Eli = grey-neutral)
+- **Silhouette readability** (can you tell who it is from shape alone?)
+
+| Character | Shape | Color | Notes |
+|-----------|-------|-------|-------|
+| **Player** | Neutral standing/walking figure | Muted warm tan | Small. Unassuming. Not heroic. |
+| **Eli** | Seated, hunched slightly forward | Grey-neutral, soft | Smaller than player. Young proportions. |
+| **Mara** | Solid, grounded, wide stance | Warm ochre/cream (apron) | Behind counter = half-visible |
+| **Ruth** | Seated. Always seated. | Muted green-blue | Stillness as identity |
+| **Daniel** | Angular, hunched over something | Dark blue | Surrounded by paper/maps |
+| **The Busker** | Irregular, instrument as body extension | Patchwork warm | Never straight |
+| **The Shadow** | Mirror of player | Complementary to player color | Familiar but wrong |
+
+### How to Create Characters (Pipeline)
+
+**Option A — Draw in Krita (recommended for this style):**
+1. New file, transparent background, 200x400px
+2. Block in the silhouette with a dark base color
+3. Add one or two color accents (apron, bag, instrument)
+4. Add minimal highlights (shoulder, top of head)
+5. Export as PNG with transparency
+6. Scale down in Godot to 10-15% of frame height
+
+**Option B — Generate with SD then simplify:**
+1. Generate a character with SD (transparent background)
+2. Open in Krita, paint over to simplify into silhouette
+3. Remove detail until it reads at small scale
 | **Mara** | Rectangle (solid, grounded, café counter) | Warm ochre, cream apron | Wide stance, arms often at sides or wiping something |
 | **Leon** | Triangle (kinetic, leaning forward, ascending) | Faded blue-green, climbing chalk dust | Always slightly off-balance, head forward |
 | **Helen** | Circle (contained, complete, garden) | Deep purple-grey, white collar | Upright, still, hands clasped or holding something small |
@@ -230,16 +322,22 @@ people, figures, characters, faces
 
 **Scene 01 — Bus Depot:**
 ```
-interior of an art deco bus depot, high vaulted ceiling with iron beams,
-morning light through dusty clerestory windows, green-oxidized brass fixtures,
-geometric tilework floor in cream and rust, two buses parked in six bays,
-roped off empty sections, pigeons perched on beams, motes of dust in light shafts,
-wide composition showing scale and emptiness, quiet abandoned grandeur
+wide side view interior of a 1930s bus depot waiting hall, seen from the side
+like a theatre stage, flat composition showing full width of the room, high
+vaulted iron ceiling with steel beam trusses, arched windows along the back
+wall letting in golden morning light, wooden waiting bench on the left side,
+iron support columns with peeling green paint, concrete floor with painted
+bay markings, one exit doorway on the right side with bright outside light,
+pigeons on beams above, timetable board on wall, empty and quiet, painterly
+digital art, visible brushstrokes, warm muted palette of amber cream and rust,
+2D side-scrolling game environment background, edward hopper style, no people,
+wide aspect ratio
 ```
 
 **Scene 02 — High Street:**
 ```
-small town high street viewed from street level, mixed architecture 
+wide side view of a small town high street, seen from the side like a theatre
+stage, flat composition, mixed architecture shopfronts spanning full width,
 (victorian shopfronts next to 1960s facades), one shop with scaffolding, 
 one empty unit with faded TO LET sign, warm light from a cafe window 
 (fogged glass, amber interior glow), overcast afternoon light, 

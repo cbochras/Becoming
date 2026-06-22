@@ -37,3 +37,17 @@ func _ready() -> void:
 		"You watch them. They watch you back. Neither of you moves.",
 	]
 	pigeons.source_name = ""
+
+	# The ticket — in your pocket since you arrived
+	var ticket = interactables.get_node_or_null("Ticket")
+	if ticket:
+		ticket.interaction_id = "ticket_examine"
+		ticket.framework_tags = {}
+		ticket.readable_text = [
+			"A ticket. Creased from your pocket.",
+			"One-way. Today's date. This town's name.",
+			"No return. No connection. Just: here.",
+			"You bought this. You must have. It's your handwriting on the back.",
+			"A single word. Smudged. You can't read it anymore.",
+		]
+		ticket.source_name = ""
